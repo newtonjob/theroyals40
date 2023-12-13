@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Models\Invite;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,7 +20,7 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard', ['invites' => \App\Models\Invite::all()]);
+    return view('dashboard', ['invites' => Invite::all()]);
 })->middleware('auth')->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -27,5 +28,9 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+Route::get('/invites/{invite}', function (Invite $invite) {
+   return Facades\App\Support\Pdf::format([200, 210])->write('<h1>Hey</h1>')->stream();
+})->name('invites.show');
 
 require __DIR__.'/auth.php';

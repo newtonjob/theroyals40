@@ -92,7 +92,7 @@
                                         Send Invite
                                     </a>
                                     |
-                                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                                    <a href="{{ route('invites.show', $invite) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
                                         Get Invite
                                     </a>
                                 </div>
