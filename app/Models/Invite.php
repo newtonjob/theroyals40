@@ -2,11 +2,35 @@
 
 namespace App\Models;
 
+use App\Notifications\InvitePass;
+use Facades\App\Support\Pdf;
+use Illuminate\Contracts\Mail\Attachable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Mail\Attachment;
 use Illuminate\Notifications\Notifiable;
 
-class Invite extends Model
+class Invite extends Model implements Attachable
 {
     use HasFactory, Notifiable;
+
+    public function send(): void
+    {
+        $this->notify(new InvitePass);
+    }
+
+    /**
+     * Get the attachable representation of the model.
+     */
+    public function toMailAttachment(): Attachment
+    {
+        return Attachment::fromData(fn () => $this->pdf()->string())
+            ->as(str($this->name)->slug()->finish('.pdf'))
+            ->withMime('application/pdf');
+    }
+
+    public function pdf(): \App\Support\Pdf
+    {
+        return Pdf::margin(0)->format([200, 200])->view('invites.show', ['invite' => $this]);
+    }
 }

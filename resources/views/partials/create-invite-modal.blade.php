@@ -19,7 +19,8 @@
     </h5>
 
     <form
-        action="#"
+        action="{{ route('invites.store') }}"
+        x-data x-submit @finish="location.reload()"
         class="my-6"
     >
         <div class="mb-6">
@@ -55,14 +56,14 @@
 
         <div class="flex mb-6">
             <div class="flex items-center h-5">
-                <input id="send" aria-describedby="send-text" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                <input id="send" name="send" aria-describedby="send-text" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
             </div>
             <div class="ml-2 text-sm">
                 <label for="send" class="font-medium text-gray-900 dark:text-gray-300">
                     Automatically send invite
                 </label>
                 <p id="helper-checkbox-text" class="text-xs font-normal text-gray-500 dark:text-gray-300">
-                    We'll immediately email them with the invite containing their QR code.
+                    Immediately sends email with the invite containing their QR code.
                 </p>
             </div>
         </div>
