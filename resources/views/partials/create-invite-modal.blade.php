@@ -20,7 +20,7 @@
 
     <form
         action="{{ route('invites.store') }}"
-        x-data x-submit @finish="location.reload()"
+        x-data="{ email: '' }" x-submit @finish="location.reload()"
         class="my-6"
     >
         <div class="mb-6">
@@ -33,7 +33,7 @@
         <div class="mb-6">
             <input name="email" type="email"
                    class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                   placeholder="Email Address" aria-label="email" required
+                   placeholder="Email Address (optional)" aria-label="email" x-model="email"
             >
         </div>
 
@@ -54,7 +54,7 @@
             >
         </div>
 
-        <div class="flex mb-6">
+        <div class="flex mb-6" x-show="email" x-transition>
             <div class="flex items-center h-5">
                 <input id="send" name="send" aria-describedby="send-text" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
             </div>

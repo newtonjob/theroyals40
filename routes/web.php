@@ -29,11 +29,11 @@ Route::middleware('auth')->group(function () {
         $invite = Invite::create($request->validate([
             'name'     => 'required',
             'passes'   => 'required',
-            'email'    => 'email',
+            'email'    => 'nullable|email',
             'category' => 'required'
         ]));
 
-        if ($request->send) {
+        if ($request->email && $request->send) {
             $invite->send();
         }
 
