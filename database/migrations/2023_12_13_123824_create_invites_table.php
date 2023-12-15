@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('email');
             $table->string('category');
             $table->string('passes');
+            $table->timestamp('sent_at')->nullable();
             $table->timestamps();
         });
     }

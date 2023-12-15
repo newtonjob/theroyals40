@@ -42,6 +42,12 @@ Route::middleware('auth')->group(function () {
         return response()->json(['message' => 'Invite created.']);
     })->name('invites.store');
 
+    Route::delete('/invites/{invite}', function (Invite $invite) {
+        $invite->delete();
+
+        return response()->json(['message' => 'Invite deleted.']);
+    })->name('invites.destroy');
+
     Route::get('/invites/{invite}/verify', function (Invite $invite) {
         return view('invites.verify', compact('invite'));
     })->name('invites.verify');

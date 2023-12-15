@@ -16,7 +16,17 @@ class Invite extends Model implements Attachable
 
     public function send(): void
     {
+        $this->update(['sent_at' => now()]);
+
         $this->notify(new InvitePass);
+    }
+
+    /**
+     * Determine if the invite has been sent.
+     */
+    public function sent()
+    {
+        return (bool) $this->sent_at;
     }
 
     /**
