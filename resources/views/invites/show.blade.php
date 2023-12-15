@@ -76,13 +76,15 @@
 
 <body>
 <div class="page" style="background-image: url({{ asset('invite.jpg') }});">
-    <div style="text-align: center; padding-top: 400px">
-        <h2 style="color: #b2883d; font-family: 'Times New Roman'">{{ strtoupper($invite->name) }}</h2>
+    <div style="text-align: center; padding-top: 390px">
+        <h1 style="color: #b2883d; font-family: 'Times New Roman'">{{ strtoupper($invite->name) }}</h1>
 
-        <img
-            style="margin-top: 100px"
-            src="https://chart.googleapis.com/chart?cht=qr&chl={{ route('invites.verify', $invite) }}&chs=120x120&choe=UTF-8&chld=L|0"
-        />
+        <div style="">
+            <img
+                style="margin-top: 20px; border: 1px solid #cccccc"
+                src="https://chart.googleapis.com/chart?cht=qr&chl={{ route('invites.verify', $invite) }}&chs=220x220&choe=UTF-8&chld=L|0"
+            />
+        </div>
     </div>
 </div>
 </body>

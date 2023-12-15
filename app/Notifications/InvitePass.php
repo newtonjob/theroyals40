@@ -36,6 +36,7 @@ class InvitePass extends Notification
     {
         return (new MailMessage)
             ->subject("Here's your invite to our celebration")
+            ->replyTo('pamelaogujiuba@gmail.com')
             ->greeting('')
             ->line("Hello {$notifiable->name},")
             ->line('Thank you again for accepting our invitation.')

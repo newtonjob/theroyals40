@@ -89,7 +89,7 @@
                             <td class="px-6 py-4">
                                 <div class="flex gap-4">
                                     <a href="{{ route('invites.show', $invite) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
-                                        Get Invite
+                                        Download Invite
                                     </a>
                                     |
                                     <form action="{{ route('invites.send', $invite) }}" x-data x-submit>
