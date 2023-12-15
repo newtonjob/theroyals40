@@ -1,5 +1,6 @@
 <?php
 
+use App\Exports\InviteExport;
 use App\Http\Controllers\ProfileController;
 use App\Models\Invite;
 use Illuminate\Http\Request;
@@ -51,6 +52,8 @@ Route::middleware('auth')->group(function () {
 
         return response()->json(['message' => 'Invite resent successfully.']);
     })->name('invites.send');
+
+    Route::get('/export', fn () => new InviteExport)->name('export');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
