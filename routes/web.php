@@ -30,7 +30,14 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('/invites/{invite}', function (Invite $invite) {
-   return Facades\App\Support\Pdf::format([200, 210])->write('<h1>Hey</h1>')->stream();
+   return Facades\App\Support\Pdf::margin(0)
+       ->format([200, 200])
+       ->name($invite->name)
+       ->render('invites.show', compact('invite'));
 })->name('invites.show');
+
+Route::get('/invites/{invite}/verify', function (Invite $invite) {
+   return view('invites.verify', compact('invite'));
+})->name('invites.verify');
 
 require __DIR__.'/auth.php';
