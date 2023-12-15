@@ -36,7 +36,11 @@ class InvitePass extends Notification
     {
         return (new MailMessage)
             ->subject("Here's your invite to our celebration")
-            ->line('Thank you again for...')
+            ->greeting("Hello {$notifiable->name}")
+            ->line('Thank you again for accepting our invitation.')
+            ->line('Attached herein is a formal e-invite that also serves as a pass.')
+            ->line('The theme for the evening is **boldly elegant**, so dress to impress in your most stylish attire.')
+            ->line('We look forward to partying with you on the **5th of January, 2024** at the **Monarch Event Center, Lagos**.')
             ->attach($notifiable);
     }
 }
