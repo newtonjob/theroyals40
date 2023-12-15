@@ -48,10 +48,6 @@ Route::middleware('auth')->group(function () {
         return response()->json(['message' => 'Invite deleted.']);
     })->name('invites.destroy');
 
-    Route::get('/invites/{invite}/verify', function (Invite $invite) {
-        return view('invites.verify', compact('invite'));
-    })->name('invites.verify');
-
     Route::post('/invites/{invite}/send', function (Invite $invite) {
         $invite->send();
 
@@ -62,5 +58,9 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+Route::get('/invites/{invite}/verify', function (Invite $invite) {
+    return view('invites.verify', compact('invite'));
+})->name('invites.verify');
 
 require __DIR__ . '/auth.php';
