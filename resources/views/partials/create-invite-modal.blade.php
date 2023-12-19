@@ -44,6 +44,7 @@
             >
                 <option>VIP</option>
                 <option>VVIP</option>
+                <option>After Party</option>
             </select>
         </div>
 

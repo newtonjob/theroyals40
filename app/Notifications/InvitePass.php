@@ -42,7 +42,17 @@ class InvitePass extends Notification
             ->line('Thank you again for accepting our invitation.')
             ->line('Attached herein is a formal e-invite that also serves as a pass.')
             ->line('The theme for the evening is **boldly elegant**, so dress to impress in your most stylish attire ☺️.')
-            ->line('We look forward to partying with you on the **5th of January, 2024 - 5pm** at the **Monarch Event Center, Lagos**.')
+            ->when(
+                $notifiable->category === 'VVIP', 
+                fn ($message) => $message
+                    ->line('Please find details below;')
+                    ->line('- Cocktail - 5pm')
+                    ->line('- Fine Dining - 7pm')
+                    ->line('- After party - 9pm')
+                    ->line('- We look forward to partying with you on the **5th of January, 2024** at the **Monarch Event Centre Lagos**.'),
+                fn ($message) => $message
+                    ->line('We look forward to partying with you on the **5th of January, 2024 - 9pm** at the **Monarch Event Center, Lagos**.'),
+            )
             ->attach($notifiable);
     }
 }

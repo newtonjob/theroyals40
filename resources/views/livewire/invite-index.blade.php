@@ -30,6 +30,13 @@
                             wire:click="$set('category', 'VVIP')"
                         >VVIP</a>
                     </li>
+                    <li>
+                        <a
+                            href="#"
+                            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                            wire:click="$set('category', 'After Party')"
+                        >After Party</a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -74,8 +81,10 @@
                         <div class="flex items-center">
                             @if ($invite->category == 'VVIP')
                                 <span class="bg-purple-100 text-purple-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-purple-900 dark:text-purple-300">{{ $invite->category }}</span>
-                            @else
+                            @elseif($invite->category == 'VIP')
                                 <span class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">{{ $invite->category }}</span>
+                            @else
+                                <span class="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-300">{{ $invite->category }}</span>
                             @endif
                         </div>
                     </td>

@@ -75,9 +75,9 @@
 
 
 <body>
-<div class="page" style="background-image: url({{ asset('invite.jpg') }});">
+<div class="page" style="background-image: url({{ asset($invite->category === 'VVIP' ? 'invite.jpg' : 'invite2.jpg') }});">
     <div style="text-align: center; padding-top: 390px">
-        <h1 style="color: #b2883d; font-family: 'Times New Roman'">{{ strtoupper($invite->name) }}</h1>
+        <h1 style="color: {{ $invite->category === 'VVIP' ? '#b2883d' : '#888' }}; font-family: 'Times New Roman'">{{ strtoupper($invite->name) }}</h1>
 
         <div style="">
             <img
