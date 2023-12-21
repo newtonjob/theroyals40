@@ -43,7 +43,7 @@ class InvitePass extends Notification
             ->line('Attached herein is a formal e-invite that also serves as a pass.')
             ->line('The theme for the evening is **boldly elegant**, so dress to impress in your most stylish attire ☺️.')
             ->when(
-                $notifiable->category === 'VVIP', 
+                $notifiable->category === 'After Party', 
                 fn ($message) => $message
                     ->line('Please find details below;')
                     ->line('- Cocktail - 5pm')
