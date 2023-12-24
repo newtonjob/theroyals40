@@ -49,7 +49,7 @@ class InvitePass extends Notification
                     ->line('- Cocktail: 5pm')
                     ->line('- Fine Dining: 7pm')
                     ->line('- After party: 9pm')
-                    ->line('- We look forward to partying with you on the **5th of January, 2024** at the **Monarch Event Centre Lagos**.'),
+                    ->line('We look forward to partying with you on the **5th of January, 2024** at the **Monarch Event Centre Lagos**.'),
                 fn ($message) => $message
                     ->line('We look forward to partying with you on the **5th of January, 2024 - 9pm** at the **Monarch Event Center, Lagos**.'),
             )
