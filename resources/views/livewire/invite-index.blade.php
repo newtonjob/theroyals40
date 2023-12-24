@@ -63,6 +63,9 @@
                     Passes
                 </th>
                 <th scope="col" class="px-6 py-3">
+                    Date Created
+                </th>
+                <th scope="col" class="px-6 py-3">
 
                 </th>
             </tr>
@@ -91,20 +94,25 @@
                     <td class="px-6 py-4">
                         {{ $invite->passes }}
                     </td>
+                    <td class="px-6 py-4">
+                        {{ $invite->created_at->toDayDateTimeString() }}
+                    </td>
                     <td class="px-6 py-4 whitespace-nowrap">
                         <div class="flex gap-4 justify-end">
                             <a href="{{ route('invites.show', $invite) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
-                                Download Invite
+                                Download
                             </a>
                             @if ($invite->email)
-                                |
+                                <span class="text-gray-200">|</span>
                                 <form action="{{ route('invites.send', $invite) }}" x-data x-submit>
                                     <button class="font-medium text-green-600 dark:text-green-500 hover:underline">
-                                        {{ $invite->sent() ? 'Resend' : 'Send' }} Invite
+                                        {{ $invite->sent() ? 'Resend' : 'Send' }}
                                     </button>
                                 </form>
                             @endif
-                            |
+
+                            <span class="text-gray-200">|</span>
+
                             <form action="{{ route('invites.destroy', $invite) }}" x-data x-submit data-confirm @finish="location.reload()">
                                 @method('delete')
                                 <button class="font-medium text-red-600 dark:text-red-500 hover:underline">
