@@ -75,7 +75,7 @@
 
 
 <body>
-<div class="page" style="background-image: url({{ asset($invite->category === 'VVIP' ? 'invite.jpg' : 'invite2.jpg') }});">
+<div class="page" style="background-image: url({{ asset($invite->category . '.jpg') }});">
     <div style="text-align: center; padding-top: 390px">
         <h1 style="color: {{ $invite->category === 'VVIP' ? '#b2883d' : '#777' }}; font-family: 'Times New Roman'">
             {{ strtoupper($invite->name) }}
@@ -83,8 +83,8 @@
 
         <div style="">
             <img
-                style="margin-top: 20px; border: 1px solid #cccccc"
-                src="https://chart.googleapis.com/chart?cht=qr&chl={{ route('invites.verify', $invite) }}&chs=220x220&choe=UTF-8&chld=L|0"
+                style="margin-top: 70px; border: 1px solid #cccccc"
+                src="https://chart.googleapis.com/chart?cht=qr&chl={{ route('invites.verify', $invite) }}&chs=170x170&choe=UTF-8&chld=L|0"
             />
         </div>
     </div>
