@@ -83,7 +83,7 @@
 
         <div style="">
             <img
-                style="margin-top: 70px; border: 1px solid #cccccc"
+                style="margin-top: 80px; border: 1px solid #cccccc"
                 src="https://chart.googleapis.com/chart?cht=qr&chl={{ route('invites.verify', $invite) }}&chs=170x170&choe=UTF-8&chld=L|0"
             />
         </div>
