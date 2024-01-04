@@ -67,7 +67,6 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('/invites/{invite}', function (Invite $invite) {
-    return (new \App\Notifications\InviteReminder())->toMail($invite);
     return $invite->pdf()->stream();
 })->middleware('signed')->name('invites.show');
 
