@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Livewire\Forms\UpdateInviteForm;
 use App\Models\Invite;
+use Livewire\Attributes\Renderless;
 use Livewire\Component;
 
 class InviteIndex extends Component
@@ -14,6 +15,7 @@ class InviteIndex extends Component
 
     public UpdateInviteForm $form;
 
+    #[Renderless]
     public function edit(Invite $invite): void
     {
         $this->form->edit($invite);
