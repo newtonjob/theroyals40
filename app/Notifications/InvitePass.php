@@ -6,6 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\URL;
 
 class InvitePass extends Notification
 {
@@ -53,7 +54,7 @@ class InvitePass extends Notification
                 fn ($message) => $message
                     ->line('We look forward to partying with you on the **5th of January, 2024 - 9pm** at the **Monarch Event Center, Lagos**.'),
             )
-            ->line("*Important: This invite admits **{$notifiable->passes}**.*")
-            ->attach($notifiable);
+            ->action('Download your invite', URL::signedRoute('invites.show', $notifiable))
+            ->line("*Important: This invite admits **{$notifiable->passes}**.*");
     }
 }

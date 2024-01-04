@@ -106,7 +106,7 @@
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="flex gap-4 justify-end">
-                                <a href="{{ route('invites.show', $invite) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                                <a href="{{ url()->signedRoute('invites.show', $invite) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
                                     Download
                                 </a>
                                 @if ($invite->email)

@@ -22,10 +22,6 @@ Route::redirect('/', '/dashboard');
 Route::middleware('auth')->group(function () {
     Route::view('/dashboard', 'dashboard')->name('dashboard');
 
-    Route::get('/invites/{invite}',
-        fn (Invite $invite) => $invite->pdf()->stream()
-    )->name('invites.show');
-
     Route::post('/invites', function (Request $request) {
         $invite = Invite::create($request->validate([
             'name'      => 'required',
@@ -69,6 +65,10 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+Route::get('/invites/{invite}', function (Invite $invite) {
+    return $invite->pdf()->stream();
+})->middleware('signed')->name('invites.show');
 
 Route::get('/invites/{invite}/verify', function (Invite $invite) {
     return view('invites.verify', compact('invite'));
