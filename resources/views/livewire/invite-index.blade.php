@@ -85,7 +85,7 @@
                             </div>
                         </th>
                         <td class="px-6 py-4">
-                            <div class="flex items-center">
+                            <div class="flex items-center whitespace-nowrap">
                                 @if ($invite->category == 'VVIP')
                                     <span class="bg-purple-100 text-purple-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-purple-900 dark:text-purple-300">{{ $invite->category }}</span>
                                 @elseif($invite->category == 'VIP')
