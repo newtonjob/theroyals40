@@ -105,7 +105,7 @@
                             {{ $invite->created_at->toDayDateTimeString() }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="flex gap-4 justify-end">
+                            <div class="flex gap-2 justify-end">
                                 <a href="{{ url()->signedRoute('invites.show', $invite) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
                                     Download
                                 </a>
