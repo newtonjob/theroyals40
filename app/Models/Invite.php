@@ -14,6 +14,13 @@ class Invite extends Model implements Attachable
 {
     use HasFactory, Notifiable;
 
+    protected static function booted()
+    {
+        parent::creating(function (Invite $invite) {
+            $invite->remaining = $invite->passes;
+        });
+    }
+
     public function send(): void
     {
         $this->update(['sent_at' => now()]);
