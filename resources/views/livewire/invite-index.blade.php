@@ -120,19 +120,21 @@
 
                                 <span class="text-gray-200">|</span>
 
-                                <a
-                                    href="javascript:"
-                                    wire:click="edit('{{ $invite->id }}')"
-                                    class="font-medium text-yellow-600 dark:text-yellow-500 hover:underline"
-                                    data-drawer-target="edit-invite-drawer"
-                                    data-drawer-show="edit-invite-drawer"
-                                    data-drawer-placement="right"
-                                    aria-controls="edit-invite-drawer"
-                                >
-                                    Edit
-                                </a>
+                                @can('create-invite')
+                                    <a
+                                        href="javascript:"
+                                        wire:click="edit('{{ $invite->id }}')"
+                                        class="font-medium text-yellow-600 dark:text-yellow-500 hover:underline"
+                                        data-drawer-target="edit-invite-drawer"
+                                        data-drawer-show="edit-invite-drawer"
+                                        data-drawer-placement="right"
+                                        aria-controls="edit-invite-drawer"
+                                    >
+                                        Edit
+                                    </a>
 
-                                <span class="text-gray-200">|</span>
+                                    <span class="text-gray-200">|</span>
+                                @endcan
 
                                 <form action="{{ route('invites.destroy', $invite) }}" x-data x-submit data-confirm @finish="location.reload()">
                                     @method('delete')
