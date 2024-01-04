@@ -63,6 +63,9 @@
                     Passes
                 </th>
                 <th scope="col" class="px-6 py-3">
+                    Remaining
+                </th>
+                <th scope="col" class="px-6 py-3">
                     Date Created
                 </th>
                 <th scope="col" class="px-6 py-3">
@@ -95,6 +98,9 @@
                         {{ $invite->passes }}
                     </td>
                     <td class="px-6 py-4">
+                        {{ $invite->remaining }}
+                    </td>
+                    <td class="px-6 py-4">
                         {{ $invite->created_at->toDayDateTimeString() }}
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">
@@ -110,6 +116,8 @@
                                     </button>
                                 </form>
                             @endif
+
+
 
                             <span class="text-gray-200">|</span>
 
