@@ -23,6 +23,6 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Gate::define('create-invite', fn (User $user) => str($user->email)->startsWith('tmo'));
+        Gate::define('create-invite', fn (User $user) => str($user->email)->startsWith(['tmo', 'job']));
     }
 }
