@@ -19,6 +19,10 @@ class Invite extends Model implements Attachable
         parent::creating(function (Invite $invite) {
             $invite->remaining = $invite->passes;
         });
+
+        parent::updating(function (Invite $invite) {
+            $invite->remaining += max($invite->passes - $invite->getOriginal('passes'), 0);
+        });
     }
 
     public function send(): void
