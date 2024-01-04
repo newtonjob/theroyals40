@@ -53,6 +53,16 @@ Route::middleware('auth')->group(function () {
         return response()->json(['message' => 'Invite resent successfully.']);
     })->name('invites.send');
 
+    Route::get('/invites/{invite}/checkin', function (Invite $invite) {
+        if ($invite->remaining < 1) {
+            return to_route('invites.verify', $invite);
+        }
+
+        $invite->decrement('remaining');
+
+        return to_route('invites.verify', [$invite, 'checked' => true]);
+    })->name('invites.checkin');
+
     Route::get('/export', fn () => new InviteExport)->name('export');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

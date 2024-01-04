@@ -23,14 +23,45 @@
 <script src="https://unpkg.com/sweetalert@2.1.2/dist/sweetalert.min.js"></script>
 
 <script>
-    swal({
-        title: @js($invite->name),
-        text: "Passes: {{ $invite->passes }}",
-        icon: "success",
-        closeOnClickOutside: false,
-        closeOnEsc: false,
-        buttons: false,
-    });
+    @if (request()->boolean('checked'))
+        swal({
+            title: @js($invite->name),
+            text: "Passes: {{ $invite->passes }} | Remaining: {{ $invite->remaining }}",
+            icon: "success",
+            closeOnClickOutside: false,
+            closeOnEsc: false,
+        });
+    @elseif ($invite->remaining > 0)
+        @auth
+            swal({
+                title: @js($invite->name),
+                text: "Passes: {{ $invite->passes }} | Remaining: {{ $invite->remaining }}",
+                icon: "info",
+                closeOnClickOutside: false,
+                closeOnEsc: false,
+                buttons: ["Cancel", 'Checkin'],
+            }).then(confirm => {
+                if (confirm) location.href = @js(route('invites.checkin', $invite))
+            });
+        @else
+            swal({
+                title: @js($invite->name),
+                text: "Passes: {{ $invite->passes }} | Remaining: {{ $invite->remaining }}",
+                icon: "success",
+                closeOnClickOutside: false,
+                closeOnEsc: false,
+            });
+        @endauth
+    @else
+        swal({
+            title: @js($invite->name),
+            text: "Passes: {{ $invite->passes }} | Remaining: {{ $invite->remaining }} (exhausted)",
+            icon: "error",
+            closeOnClickOutside: false,
+            closeOnEsc: false,
+            buttons: false,
+        });
+    @endif
 </script>
 
 </body>
