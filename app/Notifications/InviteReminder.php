@@ -36,7 +36,7 @@ class InviteReminder extends Notification implements ShouldQueue
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject("The Royals At 40: It's Tomorrow! 🥂")
+            ->subject("The Royals @ 40: It's Tomorrow! 🥂")
             ->greeting(' ')
             ->line("Hello {$notifiable->name}")
             ->line('Just a quick heads up - The much anticipated celebration is happening tomorrow, the **5th of January** and we can’t wait to have you join the festivities.')
