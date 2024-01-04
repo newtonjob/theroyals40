@@ -30,7 +30,6 @@ Route::middleware('auth')->group(function () {
         $invite = Invite::create($request->validate([
             'name'      => 'required',
             'passes'    => 'required',
-            'remaining' => $request->passes,
             'email'     => 'nullable|email',
             'category'  => 'required'
         ]));
