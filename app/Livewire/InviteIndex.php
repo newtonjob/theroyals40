@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Livewire\Forms\UpdateInviteForm;
 use App\Models\Invite;
 use Livewire\Component;
 
@@ -10,6 +11,20 @@ class InviteIndex extends Component
     public $search;
 
     public $category;
+
+    public UpdateInviteForm $form;
+
+    public function edit(Invite $invite): void
+    {
+        $this->form->edit($invite);
+    }
+
+    public function update(): void
+    {
+        $this->form->update();
+
+        $this->dispatch('invite-updated');
+    }
 
     public function render()
     {
