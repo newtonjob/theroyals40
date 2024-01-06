@@ -3,7 +3,7 @@
 use App\Exports\InviteExport;
 use App\Http\Controllers\ProfileController;
 use App\Models\Invite;
-use App\Notifications\InviteReminder;
+use App\Notifications\InviteFollowup;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Route;
@@ -77,7 +77,7 @@ Route::get('/invites/{invite}/verify', function (Invite $invite) {
 })->name('invites.verify');
 
 Route::get('/shoot', function () {
-    Notification::send(Invite::all(), new InviteReminder);
+    Notification::send(Invite::all(), new InviteFollowup);
 });
 
 require __DIR__ . '/auth.php';
