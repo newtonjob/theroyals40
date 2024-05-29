@@ -17,27 +17,16 @@
                                 wire:click="$set('category', '')"
                             >Everyone</a>
                         </li>
-                        <li>
-                            <a
-                                href="#"
-                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                                wire:click="$set('category', 'VIP')"
-                            >VIP</a>
-                        </li>
-                        <li>
-                            <a
-                                href="#"
-                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                                wire:click="$set('category', 'VVIP')"
-                            >VVIP</a>
-                        </li>
-                        <li>
-                            <a
-                                href="#"
-                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                                wire:click="$set('category', 'After Party')"
-                            >After Party</a>
-                        </li>
+
+                        @foreach (\App\Models\Invite::distinct()->pluck('category') as $category)
+                            <li>
+                                <a
+                                    href="#"
+                                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                                    wire:click="$set('category', '{{ $category }}')"
+                                >{{ $category }}</a>
+                            </li>
+                        @endforeach
                     </ul>
                 </div>
             </div>
@@ -55,6 +44,9 @@
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
                     <th scope="col" class="px-6 py-3">
+                        #
+                    </th>
+                    <th scope="col" class="px-6 py-3">
                         Name
                     </th>
                     <th scope="col" class="px-6 py-3">
@@ -66,9 +58,9 @@
                     <th scope="col" class="px-6 py-3">
                         Remaining
                     </th>
-                    <th scope="col" class="px-6 py-3">
+                    {{--<th scope="col" class="px-6 py-3">
                         Date Created
-                    </th>
+                    </th>--}}
                     <th scope="col" class="px-6 py-3">
 
                     </th>
@@ -77,6 +69,10 @@
                 <tbody>
                 @foreach($invites as $invite)
                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                        <td class="px-6 py-4">
+                            {{ $loop->iteration }}
+                        </td>
+
                         <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
                             <img class="w-10 h-10 rounded-full" src="https://ui-avatars.com/api?background=eef6ff&color=3e97ff&name={{ $invite->name }}&format=svg" alt="photo">
                             <div class="pl-3">
@@ -86,12 +82,12 @@
                         </th>
                         <td class="px-6 py-4">
                             <div class="flex items-center whitespace-nowrap">
-                                @if ($invite->category == 'VVIP')
+                                @if ($invite->category == 'FAMILY')
+                                    <span class="bg-amber-100 text-amber-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-amber-900 dark:text-amber-300">{{ $invite->category }}</span>
+                                @elseif(in_array($invite->category, ['KRYSTAL', 'VAS2NETS']))
                                     <span class="bg-purple-100 text-purple-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-purple-900 dark:text-purple-300">{{ $invite->category }}</span>
-                                @elseif($invite->category == 'VIP')
-                                    <span class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">{{ $invite->category }}</span>
                                 @else
-                                    <span class="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-300">{{ $invite->category }}</span>
+                                    <span class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">{{ $invite->category }}</span>
                                 @endif
                             </div>
                         </td>
@@ -101,9 +97,9 @@
                         <td class="px-6 py-4">
                             {{ $invite->remaining }}
                         </td>
-                        <td class="px-6 py-4">
+                        {{--<td class="px-6 py-4">
                             {{ $invite->created_at->toDayDateTimeString() }}
-                        </td>
+                        </td>--}}
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="flex gap-2 justify-end">
                                 <a href="{{ url()->signedRoute('invites.show', $invite) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">

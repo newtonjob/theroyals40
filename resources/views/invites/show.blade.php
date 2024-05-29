@@ -75,16 +75,16 @@
 
 
 <body>
-<div class="page" style="background-image: url({{ asset($invite->category . '.jpg') }});">
-    <div style="text-align: center; padding-top: 390px">
-        <h1 style="color: {{ $invite->category === 'VVIP' ? '#b2883d' : '#777' }}; font-family: 'Times New Roman'">
+<div class="page" style="background-image: url({{ asset('meetthenewtons.jpg') }});">
+    <div style="text-align: center; padding-top: 380px">
+        <h1 style="color: #b2883d; font-family: 'Times New Roman'">
             {{ strtoupper($invite->name) }}
         </h1>
 
         <div style="">
             <img
                 style="margin-top: 80px; border: 1px solid #cccccc"
-                src="https://quickchart.io/qr?text={{ route('invites.verify', $invite) }}&size=170"
+                src="https://quickchart.io/qr?text={{ route('invites.verify', $invite) }}&size=130"
                 alt="code"
             />
         </div>

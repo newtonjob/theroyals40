@@ -46,9 +46,9 @@
                     required aria-label="category"
                     wire:model="form.category"
             >
-                <option>VIP</option>
-                <option>VVIP</option>
-                <option>After Party</option>
+                @foreach (\App\Models\Invite::distinct()->pluck('category') as $category)
+                    <option value="{{ $category }}">{{ $category }}</option>
+                @endforeach
             </select>
         </div>
 

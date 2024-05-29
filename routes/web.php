@@ -77,7 +77,7 @@ Route::get('/invites/{invite}/verify', function (Invite $invite) {
 })->name('invites.verify');
 
 Route::get('/shoot', function () {
-    Notification::send(Invite::all(), new InviteFollowup);
+    // Notification::send(Invite::all(), new InviteFollowup);
 });
 
 require __DIR__ . '/auth.php';

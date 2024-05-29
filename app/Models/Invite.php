@@ -52,6 +52,6 @@ class Invite extends Model implements Attachable
 
     public function pdf(): \App\Support\Pdf
     {
-        return Pdf::margin(0)->format([200, 200])->name($this->name)->view('invites.show', ['invite' => $this]);
+        return Pdf::margin(0)->format([215, 200])->name($this->name)->view('invites.show', ['invite' => $this]);
     }
 }
