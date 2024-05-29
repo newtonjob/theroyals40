@@ -58,9 +58,9 @@
                     <th scope="col" class="px-6 py-3">
                         Remaining
                     </th>
-                    {{--<th scope="col" class="px-6 py-3">
-                        Date Created
-                    </th>--}}
+                    <th scope="col" class="px-6 py-3">
+                        Sent At
+                    </th>
                     <th scope="col" class="px-6 py-3">
 
                     </th>
@@ -97,22 +97,23 @@
                         <td class="px-6 py-4">
                             {{ $invite->remaining }}
                         </td>
-                        {{--<td class="px-6 py-4">
-                            {{ $invite->created_at->toDayDateTimeString() }}
-                        </td>--}}
+                        <td class="px-6 py-4">
+                            {{ $invite->sent_at ?? '-' }}
+                        </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="flex gap-2 justify-end">
                                 <a href="{{ url()->signedRoute('invites.show', $invite) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
                                     Download
                                 </a>
-                                @if ($invite->email)
+
+                                @unless ($invite->sent())
                                     <span class="text-gray-200">|</span>
-                                    <form action="{{ route('invites.send', $invite) }}" x-data x-submit>
+                                    <form action="{{ route('invites.send', $invite) }}" x-data x-submit @finish="location.reload()">
                                         <button class="font-medium text-green-600 dark:text-green-500 hover:underline">
                                             {{ $invite->sent() ? 'Resend' : 'Send' }}
                                         </button>
                                     </form>
-                                @endif
+                                @endunless
 
                                 <span class="text-gray-200">|</span>
 

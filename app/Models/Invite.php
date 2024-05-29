@@ -29,7 +29,7 @@ class Invite extends Model implements Attachable
     {
         $this->update(['sent_at' => now()]);
 
-        $this->notify(new InvitePass);
+        // $this->notify(new InvitePass);
     }
 
     /**
