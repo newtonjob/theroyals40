@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Notifications\InvitePass;
 use Facades\App\Support\Pdf;
 use Illuminate\Contracts\Mail\Attachable;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Mail\Attachment;
@@ -23,6 +24,11 @@ class Invite extends Model implements Attachable
         parent::updating(function (Invite $invite) {
             $invite->remaining += max($invite->passes - $invite->getOriginal('passes'), 0);
         });
+    }
+
+    public function name(): Attribute
+    {
+        return Attribute::set(fn ($value) => strtoupper($value));
     }
 
     public function send(): void
