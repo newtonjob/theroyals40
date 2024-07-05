@@ -75,7 +75,7 @@
 
 
 <body>
-<div class="page" style="background-image: url({{ asset('meetthenewtons.jpg') }});">
+<div class="page" style="background-image: url({{ asset(tenant()->domain.'.jpg') }});">
     <div style="text-align: center; padding-top: 380px">
         <h1 style="color: #b2883d; font-family: 'Times New Roman'">
             {{ strtoupper($invite->name) }}
