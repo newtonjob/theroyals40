@@ -2,6 +2,8 @@
 
 namespace App\Models\Concerns;
 
+use App\Events\ForgettingTenant;
+use App\Events\UsingTenant;
 use Illuminate\Support\Facades\Cache;
 
 trait AsTenant
@@ -11,6 +13,8 @@ trait AsTenant
      */
     public function use(): static
     {
+        UsingTenant::dispatch($this);
+
         return app()->instance('tenant', $this);
     }
 
@@ -19,6 +23,8 @@ trait AsTenant
      */
     public function forget(): void
     {
+        ForgettingTenant::dispatch($this);
+
         app()->forgetInstance('tenant');
     }
 
