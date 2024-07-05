@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Invite;
+use App\Models\Tenant;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
@@ -16,11 +17,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Invite::factory(10)->create();
+        Tenant::create([
+            'name' => 'The Newtons',
+            'domain' => request()->host(),
+        ])->use();
 
-        Schema::withoutForeignKeyConstraints(function () {
+        Invite::factory(10)->create();
+
+        /*Schema::withoutForeignKeyConstraints(function () {
             DB::unprepared(File::get(database_path('seeders/dump.sql')));
-        });
+        });*/
 
         // \App\Models\User::factory(10)->create();
 

@@ -111,13 +111,16 @@
                                 </a>
 
                                 @unless ($invite->sent())
-                                    <span class="text-gray-200">|</span>
-                                    <form action="{{ route('invites.send', $invite) }}" x-data x-submit @finish="location.reload()">
-                                        <button class="font-medium text-green-600 dark:text-green-500 hover:underline">
-                                            {{ $invite->sent() ? 'Resend' : 'Sent' }}
-                                        </button>
-                                    </form>
+
                                 @endunless
+
+                                <span class="text-gray-200">|</span>
+
+                                <form action="{{ route('invites.send', $invite) }}" x-data x-submit @finish="location.reload()">
+                                    <button class="font-medium text-green-600 dark:text-green-500 hover:underline">
+                                        {{ $invite->sent() ? 'Resend' : 'Send' }}
+                                    </button>
+                                </form>
 
                                 <span class="text-gray-200">|</span>
 

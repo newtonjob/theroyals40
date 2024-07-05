@@ -13,10 +13,13 @@ return new class extends Migration
     {
         Schema::create('invites', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('tenant_id')->constrained();
+
             $table->string('name');
             $table->string('email')->nullable();
             $table->string('category');
             $table->integer('passes');
+            $table->integer('remaining')->default(0);
             $table->timestamp('sent_at')->nullable();
             $table->timestamps();
         });

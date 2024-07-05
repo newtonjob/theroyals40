@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\BelongsToTenant;
 use App\Notifications\InvitePass;
 use Facades\App\Support\Pdf;
 use Illuminate\Contracts\Mail\Attachable;
@@ -13,7 +14,7 @@ use Illuminate\Notifications\Notifiable;
 
 class Invite extends Model implements Attachable
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, BelongsToTenant;
 
     protected static function booted()
     {
@@ -35,7 +36,7 @@ class Invite extends Model implements Attachable
     {
         $this->update(['sent_at' => now()]);
 
-        // $this->notify(new InvitePass);
+        $this->notify(new InvitePass);
     }
 
     /**
