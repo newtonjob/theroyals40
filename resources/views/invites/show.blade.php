@@ -76,15 +76,15 @@
 
 <body>
 <div class="page" style="background-image: url({{ asset(tenant()->domain.'.jpg') }});">
-    <div style="text-align: center; padding-top: 380px">
-        <h1 style="color: #b2883d; font-family: 'Times New Roman'">
+    <div style="text-align: center; padding-top: 450px">
+        <h1 style="color: #777; font-family: 'Times New Roman'">
             {{ strtoupper($invite->name) }}
         </h1>
 
         <div style="">
             <img
-                style="margin-top: 80px; border: 1px solid #cccccc"
-                src="https://quickchart.io/qr?text={{ route('invites.verify', $invite) }}&size=130"
+                style="margin-top: 20px; border: 1px solid #cccccc"
+                src="https://quickchart.io/qr?text={{ route('invites.verify', $invite) }}&size=170"
                 alt="code"
             />
         </div>
