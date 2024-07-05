@@ -4,6 +4,8 @@ namespace App\Listeners;
 
 use App\Events\ForgettingTenant;
 use App\Events\UsingTenant;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class ConfigureTenant
 {
@@ -21,8 +23,11 @@ class ConfigureTenant
 
         config()->set([
             'app.name' => $tenant->name,
-            'mail.from.name' => $tenant->name
+            'mail.from.name' => $tenant->name,
+            'mail.from.address' => Str::replaceFirst('.', '@', $tenant->domain)
         ]);
+
+        Mail::purge();
     }
 
     public function handleForgettingTenant(ForgettingTenant $event): void
