@@ -11,7 +11,7 @@ class Tenant extends Model
 {
     use HasFactory, AsTenant;
 
-    public function icon(): Attribute
+    public function logo(): Attribute
     {
         return Attribute::get(fn ($value) => asset($value));
     }

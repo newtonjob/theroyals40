@@ -7,8 +7,8 @@
 
         <title>{{ config('app.name') }}</title>
 
-        <link rel="icon" type="image/png" sizes="16x16" href="{{ tenant()->icon }}">
-        <link rel="shortcut icon" type="image/png" sizes="16x16" href="{{ tenant()->icon }}">
+        <link rel="icon" type="image/png" sizes="16x16" href="{{ tenant()->logo }}">
+        <link rel="shortcut icon" type="image/png" sizes="16x16" href="{{ tenant()->logo }}">
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
