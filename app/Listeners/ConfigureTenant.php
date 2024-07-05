@@ -21,6 +21,7 @@ class ConfigureTenant
 
         config()->set([
             'app.name' => $tenant->name,
+            'mail.from.name' => $tenant->name
         ]);
     }
 
