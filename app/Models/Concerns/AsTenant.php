@@ -4,7 +4,6 @@ namespace App\Models\Concerns;
 
 use App\Events\ForgettingTenant;
 use App\Events\UsingTenant;
-use Illuminate\Support\Facades\Cache;
 
 trait AsTenant
 {
@@ -37,7 +36,7 @@ trait AsTenant
 
         $this->use();
 
-        return tap(rescue(fn () => $callback($this)), function () use ($original) {
+        return tap($callback($this), function () use ($original) {
             $original ? $original->use() : $this->forget();
         });
     }
@@ -45,12 +44,5 @@ trait AsTenant
     public static function current(): ?static
     {
         return app()->has('tenant') ? app('tenant') : null;
-    }
-
-    public static function start($domain): static
-    {
-        return Cache::remember(
-            $domain, now()->addHour(), fn () => static::whereDomain($domain)->firstOrFail()
-        )->use();
     }
 }

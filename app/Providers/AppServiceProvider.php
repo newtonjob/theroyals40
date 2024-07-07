@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Listeners\ConfigureTenant;
 use App\Models\Tenant;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Queue\Events\JobProcessing;
@@ -28,15 +29,22 @@ class AppServiceProvider extends ServiceProvider
 
         Model::unguard();
 
-        $this->configureQueues();
+        $this->configureTenancy();
     }
 
-    public function configureQueues()
+    /**
+     * Configure the app for multitenancy.
+     */
+    public function configureTenancy()
     {
-        Queue::createPayloadUsing(fn () => ['domain' => Tenant::current()->domain]);
+        $this->app->singleton(ConfigureTenant::class);
+
+        Queue::createPayloadUsing(fn () => ['tenantId' => Tenant::current()?->id]);
 
         Queue::before(function (JobProcessing $event) {
-            ($domain = $event->job->payload()['domain']) && Tenant::start($domain);
+            ($tenantId = $event->job->payload()['tenantId'])
+                ? Tenant::find($tenantId)->use()
+                : Tenant::current()?->forget();
         });
     }
 }

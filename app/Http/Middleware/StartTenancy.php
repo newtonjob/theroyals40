@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use App\Models\Tenant;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Symfony\Component\HttpFoundation\Response;
 
 class StartTenancy
@@ -14,7 +15,10 @@ class StartTenancy
      */
     public function handle(Request $request, Closure $next): Response
     {
-        Tenant::start($request->host());
+        Cache::remember(
+            $domain = $request->host(), now()->addHour(),
+            fn () => Tenant::whereDomain($domain)->firstOrFail()
+        )->use();
 
         return $next($request);
     }
