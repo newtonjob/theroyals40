@@ -37,7 +37,7 @@ class InvitePass extends Notification
     {
         return (new MailMessage)
             ->subject("Here's your invite to our celebration 🥂")
-            ->replyTo('pamelaogujiuba@gmail.com')
+            ->replyTo('adesolaadebisi@gmail.com') // TODO: should be dynamic
             ->greeting(' ')
             ->line("Hello {$notifiable->name}")
             ->line('Thank you again for accepting our invitation.')
