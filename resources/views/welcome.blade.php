@@ -215,7 +215,8 @@
 
                         <!-- Video popup btn -->
                         <div class="d-inline-flex align-items-center position-relative mb-3">
-                            <a href="https://www.youtube.com/watch?v=zPo5ZaH6sW8"
+                            <a href="javascript:"
+                                {{--href="https://www.youtube.com/watch?v=zPo5ZaH6sW8"--}}
                                class="btn btn-video btn-icon btn-lg flex-shrink-0 me-3 stretched-link"
                                data-bs-toggle="video" aria-label="Play video">
                                 <i class="bx bx-play"></i>
