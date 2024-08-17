@@ -516,7 +516,7 @@
             <div class="col-md-6 col-lg-5 offset-lg-1">
                 <div class="ps-md-4 ps-lg-0">
                     <div class="text-primary fs-xl fw-bold pb-1 mb-2">Step 1</div>
-                    <h3 class="h1 mb-lg-4">Create Your Invite</h3>
+                    <h3 class="h1 mb-lg-4">Create an Invite</h3>
                     <p class="fs-xl mb-0">
                         Choose from our beautiful templates or design your own.
                         Provide basic information of your guest and create their unique invite.
