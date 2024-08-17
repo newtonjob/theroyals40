@@ -6,6 +6,7 @@ use App\Listeners\ConfigureTenant;
 use App\Models\Tenant;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Queue\Events\JobProcessing;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
@@ -42,7 +43,7 @@ class AppServiceProvider extends ServiceProvider
         Queue::createPayloadUsing(fn () => ['tenantId' => Tenant::current()?->id]);
 
         Queue::before(function (JobProcessing $event) {
-            ($tenantId = $event->job->payload()['tenantId'])
+            ($tenantId = Arr::get($event->job->payload(), 'tenantId'))
                 ? Tenant::find($tenantId)->use()
                 : Tenant::current()?->forget();
         });

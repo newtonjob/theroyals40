@@ -2,6 +2,8 @@
 
 use App\Exports\InviteExport;
 use App\Http\Controllers\ProfileController;
+use App\Http\Middleware\CentralDomain;
+use App\Http\Middleware\StartTenancy;
 use App\Models\Invite;
 use App\Notifications\InviteFollowup;
 use Illuminate\Http\Request;
@@ -19,65 +21,69 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::redirect('/', '/dashboard');
+Route::view('/', 'welcome')->middleware(CentralDomain::class);
 
-Route::middleware('auth')->group(function () {
-    Route::view('/dashboard', 'dashboard')->name('dashboard');
+Route::middleware(StartTenancy::class)->group(function () {
+    Route::view('/dashboard', '/dashboard');
 
-    Route::post('/invites', function (Request $request) {
-        $invite = Invite::create($request->validate([
-            'name'      => 'required',
-            'passes'    => 'required',
-            'email'     => 'nullable|email',
-            'category'  => 'required'
-        ]));
+    Route::middleware('auth')->group(function () {
+        Route::view('/dashboard', 'dashboard')->name('dashboard');
 
-        if ($request->email && $request->send) {
+        Route::post('/invites', function (Request $request) {
+            $invite = Invite::create($request->validate([
+                'name'      => 'required',
+                'passes'    => 'required',
+                'email'     => 'nullable|email',
+                'category'  => 'required'
+            ]));
+
+            if ($request->email && $request->send) {
+                $invite->send();
+            }
+
+            return response()->json(['message' => 'Invite created.']);
+        })->name('invites.store');
+
+        Route::delete('/invites/{invite}', function (Invite $invite) {
+            $invite->delete();
+
+            return response()->json(['message' => 'Invite deleted.']);
+        })->name('invites.destroy');
+
+        Route::post('/invites/{invite}/send', function (Invite $invite) {
             $invite->send();
-        }
 
-        return response()->json(['message' => 'Invite created.']);
-    })->name('invites.store');
+            return response()->json(['message' => 'Invite resent successfully.']);
+        })->name('invites.send');
 
-    Route::delete('/invites/{invite}', function (Invite $invite) {
-        $invite->delete();
+        Route::get('/invites/{invite}/checkin', function (Invite $invite) {
+            if ($invite->remaining < 1) {
+                return to_route('invites.verify', $invite);
+            }
 
-        return response()->json(['message' => 'Invite deleted.']);
-    })->name('invites.destroy');
+            $invite->decrement('remaining');
 
-    Route::post('/invites/{invite}/send', function (Invite $invite) {
-        $invite->send();
+            return to_route('invites.verify', [$invite, 'checked' => true]);
+        })->name('invites.checkin');
 
-        return response()->json(['message' => 'Invite resent successfully.']);
-    })->name('invites.send');
+        Route::get('/export', fn () => new InviteExport)->name('export');
 
-    Route::get('/invites/{invite}/checkin', function (Invite $invite) {
-        if ($invite->remaining < 1) {
-            return to_route('invites.verify', $invite);
-        }
+        Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+        Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+        Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    });
 
-        $invite->decrement('remaining');
+    Route::get('/invites/{invite}', function (Invite $invite) {
+        return $invite->pdf()->stream();
+    })->middleware('signed')->name('invites.show');
 
-        return to_route('invites.verify', [$invite, 'checked' => true]);
-    })->name('invites.checkin');
+    Route::get('/invites/{invite}/verify', function (Invite $invite) {
+        return view('invites.verify', compact('invite'));
+    })->name('invites.verify');
 
-    Route::get('/export', fn () => new InviteExport)->name('export');
+    Route::get('/shoot', function () {
+        // Notification::send(Invite::all(), new InviteFollowup);
+    });
 
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    require __DIR__ . '/auth.php';
 });
-
-Route::get('/invites/{invite}', function (Invite $invite) {
-    return $invite->pdf()->stream();
-})->middleware('signed')->name('invites.show');
-
-Route::get('/invites/{invite}/verify', function (Invite $invite) {
-    return view('invites.verify', compact('invite'));
-})->name('invites.verify');
-
-Route::get('/shoot', function () {
-    // Notification::send(Invite::all(), new InviteFollowup);
-});
-
-require __DIR__ . '/auth.php';

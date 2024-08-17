@@ -60,7 +60,6 @@ class Kernel extends HttpKernel
             ShareErrorsFromSession::class,
             // VerifyCsrfToken::class,
             SubstituteBindings::class,
-            StartTenancy::class,
         ],
 
         'api' => [
