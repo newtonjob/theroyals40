@@ -23,7 +23,7 @@ class Invite extends Model implements Attachable
         });
 
         parent::updating(function (Invite $invite) {
-            $invite->remaining += max($invite->passes - $invite->getOriginal('passes'), 0);
+            $invite->remaining += ($invite->passes - $invite->getOriginal('passes'));
         });
     }
 
