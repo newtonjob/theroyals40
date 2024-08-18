@@ -214,23 +214,22 @@
                     <div class="mb-md-5 pb-xl-5 mb-4">
 
                         <!-- Video popup btn -->
-                        <div class="d-inline-flex align-items-center position-relative mb-3">
-                            <a href="javascript:"
-                                {{--href="https://www.youtube.com/watch?v=zPo5ZaH6sW8"--}}
+                        {{--<div class="d-inline-flex align-items-center position-relative mb-3">
+                            <a href="https://www.youtube.com/watch?v=zPo5ZaH6sW8"
                                class="btn btn-video btn-icon btn-lg flex-shrink-0 me-3 stretched-link"
                                data-bs-toggle="video" aria-label="Play video">
                                 <i class="bx bx-play"></i>
                             </a>
                             <h4 class="mb-0">Play</h4>
-                        </div>
+                        </div>--}}
 
                         <!-- Text -->
                         <h1 class="display-2 mb-md-5 mb-3 pb-3">
                             Smart <span class="text-gradient-primary">Invite</span>, Smooth Entry
                         </h1>
                         <div class="d-md-flex align-items-md-start">
-                            <a href="#" class="btn btn-lg btn-primary flex-shrink-0 me-md-4 mb-md-0 mb-sm-4 mb-3">
-                                Try our demo
+                            <a href="https://wa.me/2349068221380" target="_blank" class="btn btn-lg btn-primary flex-shrink-0 me-md-4 mb-md-0 mb-sm-4 mb-3">
+                                Speak to us
                             </a>
                             <p class="d-lg-block d-none mb-0 ps-md-3">
                                 Create personalized invites with unique QR codes for your guests. Say goodbye to long lines and confusion at the entrance.
@@ -264,10 +263,11 @@
         <div class="row py-5 my-md-2 my-lg-3">
             <div class="col-lg-5 col-xl-4 mb-5 mb-lg-0">
                 <div class="text-center text-lg-start pe-lg-5 pe-xl-0">
-                    <h2 class="h1 pb-3 pb-lg-5">Take your events to the <span class="text-primary">next level!</span></h2>
-                    <a href="landing-startup.html#" class="btn btn-lg btn-primary w-100 w-sm-auto">
-                        Get started
-                        <i class="bx bx-right-arrow-alt lead ms-2 me-n1"></i>
+                    <h2 class="h1 pb-3 pb-lg-5">
+                        Take your events to the <span class="text-primary">Next Level!</span>
+                    </h2>
+                    <a href="https://wa.me/2349068221380" class="btn btn-lg btn-primary w-100 w-sm-auto">
+                        Get started <i class="bx bx-right-arrow-alt lead ms-2 me-n1"></i>
                     </a>
                 </div>
             </div>
