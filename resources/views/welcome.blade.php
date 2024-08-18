@@ -177,13 +177,13 @@
                         </li>
                     </ul>
                 </div>
-                <div class="offcanvas-header border-top">
+                {{--<div class="offcanvas-header border-top">
                     <a href="#"
                        class="btn btn-primary w-100" target="_blank" rel="noopener">
                         <i class="bx bx-user fs-4 lh-1 me-1"></i>
                         &nbsp; Login
                     </a>
-                </div>
+                </div>--}}
             </div>
             <div class="form-check form-switch mode-switch pe-lg-1 ms-auto me-4" data-bs-toggle="mode">
                 <input type="checkbox" class="form-check-input" id="theme-mode">
@@ -194,11 +194,11 @@
                     aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <a href="#"
+            {{--<a href="#"
                class="btn btn-primary btn-sm fs-sm rounded d-none d-lg-inline-flex" target="_blank" rel="noopener">
                 <i class="bx bx-user fs-5 lh-1 me-1"></i>
                 &nbsp; Login
-            </a>
+            </a>--}}
         </div>
     </header>
 
