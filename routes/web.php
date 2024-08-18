@@ -84,9 +84,9 @@ Route::middleware(StartTenancy::class)->group(function () {
     })->name('invites.verify');
 
     Route::get('/shoot', function () {
-        Invite::where('remaining', '>', 'passes')->update([
-            'remaining' => \Illuminate\Support\Facades\DB::raw('passes')
-        ]);
+        Invite::where('remaining', '>', 'passes')->each(function (Invite $invite) {
+            $invite->update(['remaining' => $invite->passes]);
+        });
 
         // Notification::send(Invite::all(), new InviteFollowup);
     });
