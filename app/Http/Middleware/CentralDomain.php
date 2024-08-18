@@ -13,7 +13,7 @@ class CentralDomain
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if ($request->host() !== 'plaininvite.com') {
+        if ($request->host() !== config('app.domain')) {
             return to_route('dashboard');
         }
 

@@ -55,7 +55,9 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => $url = env('APP_URL', 'http://localhost'),
+
+    'domain' => env('APP_DOMAIN', parse_url($url)['host']),
 
     'asset_url' => env('ASSET_URL'),
 

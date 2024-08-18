@@ -39,7 +39,7 @@
                 icon: "info",
                 closeOnClickOutside: false,
                 closeOnEsc: false,
-                buttons: ["Cancel", 'Pass'],
+                buttons: ["Cancel", 'Check In'],
             }).then(confirm => {
                 if (confirm) location.href = @js(route('invites.checkin', $invite))
             });

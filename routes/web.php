@@ -24,8 +24,6 @@ use Illuminate\Support\Facades\Route;
 Route::view('/', 'welcome')->middleware(CentralDomain::class);
 
 Route::middleware(StartTenancy::class)->group(function () {
-    Route::view('/dashboard', '/dashboard');
-
     Route::middleware('auth')->group(function () {
         Route::view('/dashboard', 'dashboard')->name('dashboard');
 
@@ -82,6 +80,10 @@ Route::middleware(StartTenancy::class)->group(function () {
     })->name('invites.verify');
 
     Route::get('/shoot', function () {
+        Invite::where('remaining', '>', 'passes')->update([
+            'remaining' => \Illuminate\Support\Facades\DB::raw('passes')
+        ]);
+
         // Notification::send(Invite::all(), new InviteFollowup);
     });
 
