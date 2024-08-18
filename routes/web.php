@@ -55,6 +55,8 @@ Route::middleware(StartTenancy::class)->group(function () {
         })->name('invites.send');
 
         Route::get('/invites/{invite}/checkin', function (Invite $invite) {
+            info("Checked in Invite: {$invite->id}");
+
             if ($invite->remaining < 1) {
                 return to_route('invites.verify', $invite);
             }
@@ -76,6 +78,8 @@ Route::middleware(StartTenancy::class)->group(function () {
     })->middleware('signed')->name('invites.show');
 
     Route::get('/invites/{invite}/verify', function (Invite $invite) {
+        info("Verified Invite: {$invite->id}");
+
         return view('invites.verify', compact('invite'));
     })->name('invites.verify');
 
