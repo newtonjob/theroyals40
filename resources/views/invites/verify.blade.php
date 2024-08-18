@@ -26,7 +26,7 @@
     @if (request()->boolean('checked'))
         swal({
             title: @js($invite->name),
-            text: "{{ $invite->category }} | Passes: {{ $invite->passes }} | Remaining: {{ $invite->remaining }}",
+            text: "{{ $invite->category }} -- Passes: {{ $invite->passes }} -- Remaining: {{ $invite->remaining }}",
             icon: "success",
             closeOnClickOutside: false,
             closeOnEsc: false,
@@ -35,7 +35,7 @@
         @auth
             swal({
                 title: @js($invite->name),
-                text: "{{ $invite->category }} | Passes: {{ $invite->passes }} | Remaining: {{ $invite->remaining }}",
+                text: "{{ $invite->category }} -- Passes: {{ $invite->passes }} -- Remaining: {{ $invite->remaining }}",
                 icon: "info",
                 closeOnClickOutside: false,
                 closeOnEsc: false,
@@ -46,7 +46,7 @@
         @else
             swal({
                 title: @js($invite->name),
-                text: "Passes: {{ $invite->passes }} | Remaining: {{ $invite->remaining }}",
+                text: "Passes: {{ $invite->passes }} -- Remaining: {{ $invite->remaining }}",
                 icon: "success",
                 closeOnClickOutside: false,
                 closeOnEsc: false,
@@ -55,7 +55,7 @@
     @else
         swal({
             title: @js($invite->name),
-            text: "Passes: {{ $invite->passes }} | Remaining: {{ $invite->remaining }} (exhausted)",
+            text: "Passes: {{ $invite->passes }} -- Remaining: {{ $invite->remaining }} (exhausted)",
             icon: "error",
             closeOnClickOutside: false,
             closeOnEsc: false,

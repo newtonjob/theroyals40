@@ -1,12 +1,12 @@
 <?php
 
 use App\Exports\InviteExport;
+use App\Http\Controllers\InviteController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Middleware\CentralDomain;
 use App\Http\Middleware\StartTenancy;
 use App\Models\Invite;
 use App\Notifications\InviteFollowup;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Route;
 
@@ -27,26 +27,8 @@ Route::middleware(StartTenancy::class)->group(function () {
     Route::middleware('auth')->group(function () {
         Route::view('/dashboard', 'dashboard')->name('dashboard');
 
-        Route::post('/invites', function (Request $request) {
-            $invite = Invite::create($request->validate([
-                'name'      => 'required',
-                'passes'    => 'required',
-                'email'     => 'nullable|email',
-                'category'  => 'required'
-            ]));
-
-            if ($request->email && $request->send) {
-                $invite->send();
-            }
-
-            return response()->json(['message' => 'Invite created.']);
-        })->name('invites.store');
-
-        Route::delete('/invites/{invite}', function (Invite $invite) {
-            $invite->delete();
-
-            return response()->json(['message' => 'Invite deleted.']);
-        })->name('invites.destroy');
+        Route::post('/invites', [InviteController::class, 'store'])->name('invites.store');
+        Route::delete('/invites/{invite}', [InviteController::class, 'destroy'])->name('invites.destroy');
 
         Route::post('/invites/{invite}/send', function (Invite $invite) {
             $invite->send();
