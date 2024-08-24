@@ -66,7 +66,7 @@ Route::middleware(StartTenancy::class)->group(function () {
     })->name('invites.verify');
 
     Route::get('/shoot', function () {
-        dd(Invite::query()->whereNotNull('email')->forPage(1, 100)->count());
+        dd(Invite::query()->whereNotNull('email')->forPage(1, 100)->get()->count());
         return (new InviteFollowup)->toMail(Invite::first());
 
         Notification::send(Invite::all(), new InviteFollowup);
