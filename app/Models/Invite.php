@@ -29,7 +29,7 @@ class Invite extends Model implements Attachable
 
     public function name(): Attribute
     {
-        return Attribute::set(fn ($value) => strtoupper($value));
+        return Attribute::set(fn ($value) => ($value));
     }
 
     public function send(): void
