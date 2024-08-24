@@ -26,6 +26,7 @@ class InviteFollowup extends Notification implements ShouldQueue
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
+            ->replyTo('adesolaadebisi@gmail.com') // TODO: should be dynamic
             ->subject(config('app.name').": Thank you! 🥂")
             ->greeting(' ')
             //->line("Hi {$notifiable->name},")

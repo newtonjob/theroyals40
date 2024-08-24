@@ -26,8 +26,8 @@ class InvitePass extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject("Here's your invite to our celebration 🥂")
             ->replyTo('adesolaadebisi@gmail.com') // TODO: should be dynamic
+            ->subject("Here's your invite to our celebration 🥂")
             ->greeting(' ')
             ->line("Hello {$notifiable->name}")
             ->line('Thank you again for accepting our invitation.')
