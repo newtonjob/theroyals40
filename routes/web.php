@@ -66,7 +66,9 @@ Route::middleware(StartTenancy::class)->group(function () {
     })->name('invites.verify');
 
     Route::get('/shoot', function () {
-        // Notification::send(Invite::all(), new InviteFollowup);
+        return (new InviteFollowup)->toMail(Invite::first());
+
+        Notification::send(Invite::all(), new InviteFollowup);
     });
 
     require __DIR__ . '/auth.php';
