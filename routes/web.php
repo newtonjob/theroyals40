@@ -66,7 +66,7 @@ Route::middleware(StartTenancy::class)->group(function () {
     })->name('invites.verify');
 
     Route::get('/shoot', function () {
-        Notification::route('mail', 'pamelaogujiuba@gmail.com')->notify(new InviteFollowup);
+        Notification::route('mail', 'jobnewton3@gmail.com')->notify(new InviteFollowup);
 
         //Notification::send(Invite::whereNotNull('email')->forPage(1, 100)->get(), new InviteFollowup);
     });
