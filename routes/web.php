@@ -66,9 +66,10 @@ Route::middleware(StartTenancy::class)->group(function () {
     })->name('invites.verify');
 
     Route::get('/shoot', function () {
-        //Notification::route('mail', 'jobnewton3@gmail.com')->notify(new InviteFollowup);
+        Notification::route('mail', 'pamelaogujiuba@gmail.com')->notify(new InviteFollowup);
+        Notification::route('mail', 'jobnewton3@gmail.com')->notify(new InviteFollowup);
 
-        Notification::send(Invite::all(), new InviteFollowup);
+        //Notification::send(Invite::all(), new InviteFollowup);
     });
 
     require __DIR__ . '/auth.php';

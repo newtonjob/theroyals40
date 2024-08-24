@@ -28,7 +28,7 @@ class InviteFollowup extends Notification implements ShouldQueue
         return (new MailMessage)
             ->subject(config('app.name').": Thank you! 🥂")
             ->greeting(' ')
-            ->line("Hi {$notifiable->name},")
+            //->line("Hi {$notifiable->name},")
             ->line("Thank you for making my 40th birthday celebration so special! Your presence meant the world to me, and I'm truly grateful for your love and support.")
             ->line("Looking forward to many more joyful moments together!")
             ->salutation(new HtmlString('With Love ❤️<br>'. config('app.name')));
