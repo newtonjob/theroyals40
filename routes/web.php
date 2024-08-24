@@ -68,7 +68,7 @@ Route::middleware(StartTenancy::class)->group(function () {
     Route::get('/shoot', function () {
         //Notification::route('mail', 'adesolaadebisi@gmail.com')->notify(new InviteFollowup);
 
-        //Notification::send(Invite::all(), new InviteFollowup);
+        //Notification::send(Invite::whereNotNull('email')->latest()->get(), new InviteFollowup);
     });
 
     require __DIR__ . '/auth.php';
