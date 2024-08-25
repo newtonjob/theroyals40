@@ -3,8 +3,6 @@
 use App\Exports\InviteExport;
 use App\Http\Controllers\InviteController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Middleware\CentralDomain;
-use App\Http\Middleware\StartTenancy;
 use App\Models\Invite;
 use App\Notifications\InviteFollowup;
 use Illuminate\Support\Facades\Notification;
@@ -21,9 +19,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::view('/', 'welcome')->middleware(CentralDomain::class);
+Route::view('/', 'welcome')->middleware('central');
 
-Route::middleware(StartTenancy::class)->group(function () {
+Route::middleware('tenant')->group(function () {
     Route::middleware('auth')->group(function () {
         Route::view('/dashboard', 'dashboard')->name('dashboard');
 
