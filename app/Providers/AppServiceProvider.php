@@ -6,7 +6,7 @@ use App\Listeners\ConfigureTenant;
 use App\Models\Tenant;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Queue\Events\JobProcessing;
-use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Context;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
@@ -18,7 +18,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->singleton(ConfigureTenant::class);
     }
 
     /**
@@ -30,22 +30,17 @@ class AppServiceProvider extends ServiceProvider
 
         Model::unguard();
 
-        $this->configureTenancy();
+        $this->configureQueues();
     }
 
     /**
      * Configure the app for multitenancy.
      */
-    public function configureTenancy()
+    public function configureQueues()
     {
-        $this->app->singleton(ConfigureTenant::class);
-
-        Queue::createPayloadUsing(fn () => ['tenantId' => Tenant::current()?->id]);
-
         Queue::before(function (JobProcessing $event) {
-            ($tenantId = Arr::get($event->job->payload(), 'tenantId'))
-                ? Tenant::find($tenantId)->use()
-                : Tenant::current()?->forget();
+            $tenantId = Context::get('tenant');
+            $tenantId ? Tenant::findOrFail($tenantId)->use() : Tenant::current()?->forget();
         });
     }
 }

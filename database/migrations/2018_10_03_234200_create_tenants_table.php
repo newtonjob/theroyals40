@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('domain')->unique();
             $table->string('logo')->nullable();
-            $table->string('logo_disk')->nullable();
+            $table->string('logo_disk')->nullable(); // TODO: drop
             $table->text('invite_message')->nullable();
             $table->json('settings')->nullable();
             $table->timestamps();

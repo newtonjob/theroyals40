@@ -4,27 +4,32 @@ namespace App\Models\Concerns;
 
 use App\Events\ForgettingTenant;
 use App\Events\UsingTenant;
+use Illuminate\Support\Facades\Context;
 
 trait AsTenant
 {
     /**
      * Use the tenant as current tenant for the rest of the request.
      */
-    public function use(): static
+    public function use(): void
     {
         UsingTenant::dispatch($this);
 
-        return app()->instance('tenant', $this);
+        app()->instance('tenant', $this);
+
+        Context::add('tenant', $this->id);
     }
 
     /**
-     * Forget the tenant as current tenant.
+     * Forget the tenant as being the current tenant.
      */
     public function forget(): void
     {
         ForgettingTenant::dispatch($this);
 
         app()->forgetInstance('tenant');
+
+        Context::forget('tenant');
     }
 
     /**

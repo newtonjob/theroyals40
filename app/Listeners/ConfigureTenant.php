@@ -14,7 +14,7 @@ class ConfigureTenant
 
     public function __construct()
     {
-        $this->original = config()->get(['app.name', 'mail.from']);
+        $this->original = config()->get(['app.name', 'app.url', 'mail.from']);
     }
 
     public function handleUsingTenant(UsingTenant $event): void
@@ -22,8 +22,9 @@ class ConfigureTenant
         $tenant = $event->tenant;
 
         $this->configure([
-            'app.name'          => $tenant->name,
-            'app.url'           => request()->getScheme() . '://' . $tenant->domain,
+            'app.name' => $tenant->name,
+            'app.url'  => request()->getScheme() . '://' . $tenant->domain,
+
             'mail.from.name'    => $tenant->name,
             'mail.from.address' => Str::replaceFirst('.', '@', $tenant->domain)
         ]);
