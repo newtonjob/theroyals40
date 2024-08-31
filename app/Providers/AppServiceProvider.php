@@ -34,7 +34,7 @@ class AppServiceProvider extends ServiceProvider
     }
 
     /**
-     * Configure queues to always run in tenant context.
+     * Configure queues to run within the context of the tenant that dispatched the job.
      */
     public function configureQueues()
     {
