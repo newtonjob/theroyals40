@@ -34,13 +34,13 @@ class AppServiceProvider extends ServiceProvider
     }
 
     /**
-     * Configure the app for multitenancy.
+     * Configure queues to always run in tenant context.
      */
     public function configureQueues()
     {
         Queue::before(function (JobProcessing $event) {
-            $tenantId = Context::get('tenant');
-            $tenantId ? Tenant::findOrFail($tenantId)->use() : Tenant::current()?->forget();
+            $id = Context::get('tenantId');
+            $id ? Tenant::findOrFail($id)->use() : Tenant::current()?->forget();
         });
     }
 }

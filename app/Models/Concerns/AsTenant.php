@@ -17,7 +17,7 @@ trait AsTenant
 
         app()->instance('tenant', $this);
 
-        Context::add('tenant', $this->id);
+        Context::add('tenantId', $this->id);
     }
 
     /**
@@ -29,7 +29,7 @@ trait AsTenant
 
         app()->forgetInstance('tenant');
 
-        Context::forget('tenant');
+        Context::forget('tenantId');
     }
 
     /**
