@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Http\Middleware\StartTenancy;
 use App\Listeners\ConfigureTenant;
 use App\Models\Tenant;
 use Illuminate\Database\Eloquent\Model;
@@ -31,6 +32,10 @@ class AppServiceProvider extends ServiceProvider
         Model::unguard();
 
         $this->configureQueues();
+
+        Livewire::addPersistentMiddleware([
+            StartTenancy::class,
+        ]);
     }
 
     /**
