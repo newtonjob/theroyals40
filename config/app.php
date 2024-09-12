@@ -171,6 +171,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\PdfServiceProvider::class,
+        App\Providers\TenancyServiceProvider::class,
     ])->toArray(),
 
     /*
