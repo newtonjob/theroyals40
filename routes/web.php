@@ -64,6 +64,7 @@ Route::middleware('tenant')->group(function () {
     })->name('invites.verify');
 
     Route::get('/shoot', function () {
+        dd(config('app.name'), tenant());
         //Notification::route('mail', 'adesolaadebisi@gmail.com')->notify(new InviteFollowup);
         //Notification::send(Invite::whereNotNull('email')->latest()->take(50)->get(), new InviteFollowup);
     });
