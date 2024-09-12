@@ -7,7 +7,7 @@ use App\Http\Middleware\OnlyCentralDomain;
 use App\Http\Middleware\EncryptCookies;
 use App\Http\Middleware\PreventRequestsDuringMaintenance;
 use App\Http\Middleware\RedirectIfAuthenticated;
-use App\Http\Middleware\StartTenancy;
+use App\Http\Middleware\NeedsTenant;
 use App\Http\Middleware\TrimStrings;
 use App\Http\Middleware\TrustProxies;
 use App\Http\Middleware\ValidateSignature;
@@ -67,7 +67,7 @@ class Kernel extends HttpKernel
             // \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
             ThrottleRequests::class . ':api',
             SubstituteBindings::class,
-            StartTenancy::class,
+            NeedsTenant::class,
         ],
     ];
 
@@ -91,6 +91,6 @@ class Kernel extends HttpKernel
         'throttle'         => ThrottleRequests::class,
         'verified'         => EnsureEmailIsVerified::class,
         'central'          => OnlyCentralDomain::class,
-        'tenant'           => StartTenancy::class,
+        'tenant'           => NeedsTenant::class,
     ];
 }
