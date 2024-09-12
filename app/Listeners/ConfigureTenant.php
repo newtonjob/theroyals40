@@ -21,6 +21,8 @@ class ConfigureTenant
     {
         $tenant = $event->tenant;
 
+        dd($tenant, 'listener');
+
         $this->configure([
             'app.name' => $tenant->name,
             'app.url'  => request()->getScheme() . '://' . $tenant->domain,
