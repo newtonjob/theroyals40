@@ -34,7 +34,7 @@ class AppServiceProvider extends ServiceProvider
         $this->configureQueues();
 
         Livewire::addPersistentMiddleware([
-            StartTenancy::class,
+            //StartTenancy::class,
         ]);
     }
 
