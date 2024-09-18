@@ -73,9 +73,7 @@ class Invite extends Model implements Attachable
         //$text = $markdown->renderText($notification->markdown, $notification->data());
 
         $text = implode("\n\n", [
-            ...$notification->introLines,
-            '',
-            url()->signedRoute('invites.show', $this)
+            ...$notification->introLines, url()->signedRoute('invites.show', $this)
         ]);
 
         return "whatsapp://send?text=".urlencode(str($text)->deduplicate('*'));
