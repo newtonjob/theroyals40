@@ -34,7 +34,7 @@ class InvitePass extends Notification
             ->line('Attached herein is a formal e-invite that also serves as a pass.')
             ->line('The theme for the day is **boldly elegant**, so dress to impress in your most stylish attire ☺️.')
             ->line('We look forward to partying with you on **Saturday, 26th October 2024** at the **Monarch Event Center, Lagos**.')
-            ->line("*PS: This is strictly by invitation and invites admit only **{$notifiable->passes}**. QR cannot be transferred.*")
+            ->line("*PS: This is strictly by invitation. Your invite admits **{$notifiable->passes} only**. QR cannot be transferred.*")
             ->attach($notifiable);
     }
 }
