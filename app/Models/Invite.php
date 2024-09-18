@@ -78,6 +78,6 @@ class Invite extends Model implements Attachable
             url()->signedRoute('invites.show', $this)
         ]);
 
-        return "whatsapp://send?text=".urlencode($text);
+        return "whatsapp://send?text=".urlencode(str($text)->deduplicate('*'));
     }
 }
