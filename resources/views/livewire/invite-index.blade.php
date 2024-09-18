@@ -125,7 +125,7 @@
                                 @else
                                     <a
                                         class="font-medium text-green-600 dark:text-green-500 hover:underline"
-                                        href="{{ $invite->toWhatsapp() }}"
+                                        href="{{ $invite->whatsappUrl() }}"
                                         target="_blank"
                                     >
                                         {{ $invite->sent() ? 'Resend' : 'Send' }}

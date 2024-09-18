@@ -63,7 +63,7 @@ class Invite extends Model implements Attachable
         return Pdf::margin(0)->format([215, 200])->name($this->name)->view('invites.show', ['invite' => $this]);
     }
 
-    public function toWhatsapp()
+    public function whatsappUrl(): string
     {
         /** @var Markdown $markdown */
         $markdown = app(Markdown::class);
@@ -72,10 +72,12 @@ class Invite extends Model implements Attachable
 
         //$text = $markdown->renderText($notification->markdown, $notification->data());
 
-        $text = implode("\n\n", [
-            ...$notification->introLines, url()->signedRoute('invites.show', $this)
-        ]);
+        $text = collect($notification->introLines)
+            ->add(url()->signedRoute('invites.show', $this))
+            ->implode("\n\n");
 
-        return 'https://api.whatsapp.com/send?text='.urlencode(str($text)->deduplicate('*'));
+        $text = str($text)->replace('*', '_')->replace('__', '*');
+
+        return 'https://api.whatsapp.com/send?text='.urlencode($text);
     }
 }
