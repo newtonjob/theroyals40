@@ -53,7 +53,7 @@ Route::middleware('tenant')->group(function () {
         Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     });
 
-    Route::get('/invites/{invite}', function (Invite $invite) {
+    Route::get('/invites/{invite}/pass.pdf', function (Invite $invite) {
         return $invite->pdf()->stream();
     })->middleware('signed')->name('invites.show');
 
