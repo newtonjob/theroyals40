@@ -65,12 +65,7 @@ class Invite extends Model implements Attachable
 
     public function whatsappUrl(): string
     {
-        /** @var Markdown $markdown */
-        $markdown = app(Markdown::class);
-
         $notification = (new InvitePass)->toMail($this);
-
-        //$text = $markdown->renderText($notification->markdown, $notification->data());
 
         $text = collect($notification->introLines)
             ->add(url()->signedRoute('invites.show', $this))
