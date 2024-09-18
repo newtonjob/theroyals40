@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Mail\Attachment;
+use Illuminate\Mail\Markdown;
 use Illuminate\Notifications\Notifiable;
 
 class Invite extends Model implements Attachable
@@ -60,5 +61,23 @@ class Invite extends Model implements Attachable
     public function pdf(): \App\Support\Pdf
     {
         return Pdf::margin(0)->format([215, 200])->name($this->name)->view('invites.show', ['invite' => $this]);
+    }
+
+    public function toWhatsapp()
+    {
+        /** @var Markdown $markdown */
+        $markdown = app(Markdown::class);
+
+        $notification = (new InvitePass)->toMail($this);
+
+        //$text = $markdown->renderText($notification->markdown, $notification->data());
+
+        $text = implode("\n", [
+            ...$notification->introLines,
+            '',
+            url()->signedRoute('invites.show', $this)
+        ]);
+
+        return "whatsapp://send?text=".$text;
     }
 }
