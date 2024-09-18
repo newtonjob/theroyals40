@@ -72,7 +72,7 @@ class Invite extends Model implements Attachable
 
         //$text = $markdown->renderText($notification->markdown, $notification->data());
 
-        $text = implode("\n", [
+        $text = implode("\n\n", [
             ...$notification->introLines,
             '',
             url()->signedRoute('invites.show', $this)
