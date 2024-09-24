@@ -5,6 +5,7 @@ namespace App\Notifications;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\HtmlString;
 
 class InvitePass extends Notification
 {
@@ -36,6 +37,7 @@ class InvitePass extends Notification
             ->line('- Dress Code/Theme: Black tie / boldly elegant, so dress to impress in your most stylish attire.')
             ->line('We look forward to celebrating with you.')
             ->line("*This invite admits **only {$notifiable->passes}**. QR cannot be transferred.*")
+            ->salutation(new HtmlString("Regards<br>".config('app.name')))
             ->attach($notifiable);
     }
 
