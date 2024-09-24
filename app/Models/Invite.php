@@ -75,7 +75,7 @@ class Invite extends Model implements Attachable
             ->add(url()->signedRoute('invites.show', $this))
             ->implode("\n\n");
 
-        $text = str($text)->replace('*', '_')->replace('__', '*');
+        $text = str($text)->replace('*', '_')->replace('__', '*')->replace('<br>', "\n");
 
         return 'https://api.whatsapp.com/send?text='.urlencode($text);
     }
