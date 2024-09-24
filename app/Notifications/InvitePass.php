@@ -56,7 +56,7 @@ class InvitePass extends Notification
             ->line('- Dress Code/Theme: Black tie / boldly elegant, so dress to impress in your most stylish attire.')
             ->line('We look forward to celebrating with you.')
             ->line("_This invite admits *only {$notifiable->passes}*. QR cannot be transferred._")
-            ->line("Regards,\n".config('app.name'))
+            ->line(new HtmlString("Regards,\n".config('app.name')))
             ->line(url()->signedRoute('invites.show', $notifiable));
     }
 
