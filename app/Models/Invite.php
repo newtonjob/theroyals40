@@ -4,13 +4,11 @@ namespace App\Models;
 
 use App\Models\Concerns\BelongsToTenant;
 use App\Notifications\InvitePass;
-use Facades\App\Support\Pdf;
 use Illuminate\Contracts\Mail\Attachable;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Mail\Attachment;
-use Illuminate\Mail\Markdown;
 use Illuminate\Notifications\Notifiable;
 
 class Invite extends Model implements Attachable
@@ -53,29 +51,16 @@ class Invite extends Model implements Attachable
      */
     public function toMailAttachment(): Attachment
     {
-        return Attachment::fromData(fn () => $this->pdf()->string())
+        return Attachment::fromUrl(url()->signedRoute('invites.show', $this))
             ->as(str($this->name)->slug()->finish('.pdf'))
             ->withMime('application/pdf');
     }
 
-    public function pdf(): \App\Support\Pdf
-    {
-        return Pdf::margin(0)
-            ->format([215, 200])
-            ->name($this->name)
-            ->view('invites.show', ['invite' => $this]);
-    }
-
     public function whatsappUrl(): string
     {
-        $notification = (new InvitePass)->toMail($this);
+        $notification = (new InvitePass)->toWhatsapp($this);
 
-        $text = collect($notification->introLines)
-            ->add($notification->salutation)
-            ->add(url()->signedRoute('invites.show', $this))
-            ->implode("\n\n");
-
-        $text = str($text)->replace('*', '_')->replace('__', '*')->replace('<br>', "\n");
+        $text = collect($notification->introLines)->implode("\n\n");
 
         return 'https://api.whatsapp.com/send?text='.urlencode($text);
     }
