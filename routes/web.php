@@ -26,7 +26,6 @@ Route::middleware('tenant')->group(function () {
         Route::view('/dashboard', 'dashboard')->name('dashboard');
 
         Route::delete('/invites/{invite}', [InviteController::class, 'destroy'])->name('invites.destroy');
-        Route::get('/invites/{invite}.pdf', [InviteController::class, 'show'])->name('invites.show');
         Route::post('/invites', [InviteController::class, 'store'])->name('invites.store');
 
         Route::post('/invites/{invite}/send', function (Invite $invite) {
@@ -53,6 +52,8 @@ Route::middleware('tenant')->group(function () {
         Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
         Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     });
+
+    Route::get('/invites/{invite}.pdf', [InviteController::class, 'show'])->name('invites.show');
 
     Route::get('/invites/{invite}/verify', function (Invite $invite) {
         info("Verified Invite: {$invite->id}");
