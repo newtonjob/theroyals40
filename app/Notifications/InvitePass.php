@@ -3,10 +3,8 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use Illuminate\Support\Facades\URL;
 
 class InvitePass extends Notification
 {
@@ -26,15 +24,23 @@ class InvitePass extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->replyTo('themelagency@gmail.com') // TODO: should be dynamic
+            ->replyTo('themelagency@gmail.com') // TODO: should be dynamic from tenant
             ->subject("Here's your invite to our union 🥂")
             ->greeting(' ')
-            ->line("Hello {$notifiable->name}")
+            ->line("Dear {$notifiable->name}")
             ->line('Thank you again for accepting our invitation.')
             ->line('Attached herein is a formal e-invite that also serves as a pass.')
-            ->line('The theme for the day is **boldly elegant**, so dress to impress in your most stylish attire ☺️.')
-            ->line('We look forward to partying with you on **Saturday, 26th October 2024** at the **Monarch Event Center, Lagos**.')
-            ->line("*PS: This is strictly by invitation. Your invite admits **{$notifiable->passes} only**. QR cannot be transferred.*")
+            ->line('- Venue: Monarch Event Centre, Lagos')
+            ->line('- Date: 26th October, 2024')
+            ->line('- Time: 3 PM')
+            ->line('- Dress Code/Theme: Black tie / boldly elegant, so dress to impress in your most stylish attire.')
+            ->line('We look forward to celebrating with you.')
+            ->line("*This invite admits **only {$notifiable->passes}**. QR cannot be transferred.*")
             ->attach($notifiable);
+    }
+
+    public function shouldSend(): bool
+    {
+        return tenant()->domain === 'therawaunion.plaininvite.com';
     }
 }

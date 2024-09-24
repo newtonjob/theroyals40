@@ -60,7 +60,10 @@ class Invite extends Model implements Attachable
 
     public function pdf(): \App\Support\Pdf
     {
-        return Pdf::margin(0)->format([215, 200])->name($this->name)->view('invites.show', ['invite' => $this]);
+        return Pdf::margin(0)
+            ->format([215, 200])
+            ->name($this->name)
+            ->view('invites.show', ['invite' => $this]);
     }
 
     public function whatsappUrl(): string
@@ -68,6 +71,7 @@ class Invite extends Model implements Attachable
         $notification = (new InvitePass)->toMail($this);
 
         $text = collect($notification->introLines)
+            ->add($notification->salutation)
             ->add(url()->signedRoute('invites.show', $this))
             ->implode("\n\n");
 
