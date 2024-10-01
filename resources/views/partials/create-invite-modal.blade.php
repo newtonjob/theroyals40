@@ -47,7 +47,7 @@
             >
                 <option value="">Choose category</option>
 
-                @foreach (['VIP', 'VVIP'] as $category)
+                @foreach (['VVIP', 'General Guest', 'Family', 'After Party'] as $category)
                     <option>{{ $category }}</option>
                 @endforeach
             </select>
