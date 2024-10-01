@@ -156,7 +156,8 @@
                                 @endcan
 
                                 <form
-                                    x-data @submit.prevent="$submit().then(() => location.reload())"
+                                    x-data @submit.prevent="$submit()"
+                                    @then="location.reload()"
                                     action="{{ route('invites.destroy', $invite) }}"
                                     data-confirm
                                 >
