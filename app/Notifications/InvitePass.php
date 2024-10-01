@@ -7,6 +7,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Messages\SimpleMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\HtmlString;
+use Illuminate\Support\Number;
 
 class InvitePass extends Notification
 {
@@ -29,14 +30,29 @@ class InvitePass extends Notification
             ->replyTo('themelagency@gmail.com') // TODO: should be dynamic from tenant
             ->subject("Here's your invite to our union 🥂")
             ->greeting("Dear {$notifiable->name}")
-            ->line('Thank you again for accepting our invitation.')
-            ->line('Attached herein is a formal e-invite that also serves as a pass.')
+
+            ->linesIf($notifiable->category !== 'After Party', [
+                'Thank you again for accepting our invitation.',
+                "Attached herein is a formal e-invite that also serves as a pass."
+            ])
+            ->linesIf($notifiable->category == 'After Party', [
+                'Kasha and Jibola cordially invite you to their wedding ceremony.'
+            ])
+
             ->line('- Venue: Monarch Event Centre, Lagos')
             ->line('- Date: 26th October, 2024')
             ->line('- Time: **3 PM**')
-            ->line('- Dress Code/Theme: Black tie / boldly elegant, so dress to impress in your most stylish attire.')
-            ->line('We look forward to celebrating with you.')
-            ->line("*This invite admits **only {$notifiable->passes}**. QR cannot be transferred.*")
+
+            ->linesIf($notifiable->category !== 'After Party', [
+                "- Dress Code/Theme: Black tie / boldly elegant, so dress to impress in your most stylish attire.",
+                "We look forward to celebrating with you.",
+                "*This invite admits **only {$notifiable->passes}**. QR cannot be transferred.*"
+            ])
+
+            ->linesIf($notifiable->category == 'After Party', [
+                '**Card admits '.Number::spell($notifiable->passes).'**'
+            ])
+
             ->salutation(new HtmlString("Regards,<br>".config('app.name')))
             ->attach($notifiable);
     }
@@ -48,15 +64,29 @@ class InvitePass extends Notification
     {
         return (new SimpleMessage)
             ->line("Dear {$notifiable->name}")
-            ->line('Thank you again for accepting our invitation.')
-            ->line('Attached herein is a formal e-invite that also serves as a pass.')
+            ->linesIf($notifiable->category !== 'After Party', [
+                'Thank you again for accepting our invitation.',
+                "Attached herein is a formal e-invite that also serves as a pass."
+            ])
+            ->linesIf($notifiable->category == 'After Party', [
+                'Kasha and Jibola cordially invite you to their wedding ceremony.'
+            ])
             ->line('- Venue: Monarch Event Centre, Lagos')
             ->line('- Date: 26th October, 2024')
             ->line('- Time: *3 PM*')
-            ->line('- Dress Code/Theme: Black tie / boldly elegant, so dress to impress in your most stylish attire.')
-            ->line('We look forward to celebrating with you.')
-            ->line("_This invite admits *only {$notifiable->passes}*. QR cannot be transferred._")
-            ->line(new HtmlString("Regards,\n".config('app.name')))
+
+            ->linesIf($notifiable->category !== 'After Party', [
+                "- Dress Code/Theme: Black tie / boldly elegant, so dress to impress in your most stylish attire.",
+                "We look forward to celebrating with you.",
+                "_This invite admits *only {$notifiable->passes}*. QR cannot be transferred._"
+            ])
+
+            ->linesIf($notifiable->category == 'After Party', [
+                '*Card admits '.Number::spell($notifiable->passes).'*'
+            ])
+
+            ->line("Regards")
+            ->line(config('app.name'))
             ->line(url()->signedRoute('invites.show', $notifiable));
     }
 
