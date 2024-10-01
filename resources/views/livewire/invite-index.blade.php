@@ -119,7 +119,10 @@
                                 <span class="text-gray-200">|</span>
 
                                 @if ($invite->email)
-                                    <form action="{{ route('invites.send', $invite) }}" x-data x-submit @finish="location.reload()">
+                                    <form
+                                        x-data @submit.prevent="$submit().then(() => location.reload())"
+                                        action="{{ route('invites.send', $invite) }}"
+                                    >
                                         <button class="font-medium text-green-600 dark:text-green-500 hover:underline">
                                             {{ $invite->sent() ? 'Resend' : 'Send' }}
                                         </button>
@@ -152,7 +155,11 @@
                                     <span class="text-gray-200">|</span>
                                 @endcan
 
-                                <form action="{{ route('invites.destroy', $invite) }}" x-data x-submit data-confirm @finish="location.reload()">
+                                <form
+                                    x-data @submit.prevent="$submit().then(() => location.reload())"
+                                    action="{{ route('invites.destroy', $invite) }}"
+                                    data-confirm
+                                >
                                     @method('delete')
                                     <button class="font-medium text-red-600 dark:text-red-500 hover:underline">
                                         Delete

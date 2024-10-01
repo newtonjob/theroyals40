@@ -4,6 +4,7 @@ namespace App\Exports;
 
 use App\Models\Invite;
 use Illuminate\Contracts\Support\Responsable;
+use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
@@ -15,10 +16,12 @@ class InviteExport implements FromCollection, Responsable, ShouldAutoSize, WithH
 
     public $fileName = 'InviteList.xlsx';
 
-    /**
-    * @return \Illuminate\Support\Collection
-    */
-    public function collection()
+    public function __invoke(): static
+    {
+        return $this;
+    }
+
+    public function collection(): Collection
     {
         return Invite::all()->map(fn (Invite $invite) => [
             $invite->name,

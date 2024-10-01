@@ -20,7 +20,8 @@
 
     <form
         action="{{ route('invites.store') }}"
-        x-data="{ email: '' }" x-submit @finish="location.reload()"
+        x-data="{ email: '' }"
+        @submit.prevent="$submit().then(() => location.reload())"
         class="my-6"
     >
         <div class="mb-6">

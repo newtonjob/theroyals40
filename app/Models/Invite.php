@@ -18,6 +18,7 @@ class Invite extends Model implements Attachable
     protected static function booted()
     {
         parent::creating(function (Invite $invite) {
+            $invite->passes ??= 1;
             $invite->remaining = $invite->passes;
         });
 

@@ -3,6 +3,7 @@
 use App\Exports\InviteExport;
 use App\Http\Controllers\InviteController;
 use App\Http\Controllers\ProfileController;
+use App\Imports\InviteImport;
 use App\Models\Invite;
 use App\Notifications\InviteFollowup;
 use Illuminate\Support\Facades\Notification;
@@ -46,7 +47,8 @@ Route::middleware('tenant')->group(function () {
             return to_route('invites.verify', [$invite, 'checked' => true]);
         })->name('invites.checkin');
 
-        Route::get('/export', fn () => new InviteExport)->name('export');
+        Route::get('/export', InviteExport::class)->name('export');
+        Route::post('/import', InviteImport::class)->name('invites.import');
 
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
