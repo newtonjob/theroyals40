@@ -52,6 +52,8 @@ const submitForm = (form, controller = null) => {
             notify().error(error.response?.data?.message ?? error.message);
 
             dispatch('catch', form, error);
+
+            return Promise.reject(error)
         }).finally(() => {
             removeSpinner(form);
 

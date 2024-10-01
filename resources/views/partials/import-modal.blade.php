@@ -18,6 +18,7 @@
 
             <x-text-input
                 class="mt-1 block w-3/4 border"
+                accept=".xlsx,.xls,.csv"
                 id="import-file"
                 name="file"
                 type="file"
