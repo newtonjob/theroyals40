@@ -82,10 +82,12 @@
                         </th>
                         <td class="px-6 py-4">
                             <div class="flex items-center whitespace-nowrap">
-                                @if ($invite->category == 'FAMILY')
+                                @if ($invite->category == 'Family')
                                     <span class="bg-amber-100 text-amber-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-amber-900 dark:text-amber-300">{{ $invite->category }}</span>
                                 @elseif(in_array($invite->category, ['VVIP']))
                                     <span class="bg-purple-100 text-purple-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-purple-900 dark:text-purple-300">{{ $invite->category }}</span>
+                                @elseif(in_array($invite->category, ['After Party']))
+                                    <span class="bg-indigo-100 text-indigo-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-indigo-900 dark:text-indigo-300">{{ $invite->category }}</span>
                                 @else
                                     <span class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">{{ $invite->category }}</span>
                                 @endif
