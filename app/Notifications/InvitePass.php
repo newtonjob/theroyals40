@@ -85,8 +85,7 @@ class InvitePass extends Notification
                 '*Card admits '.Number::spell($notifiable->passes).'*'
             ])
 
-            ->line("Regards")
-            ->line(config('app.name'))
+            ->line(new HtmlString("Regards,\n".config('app.name')))
             ->line(url()->signedRoute('invites.show', $notifiable));
     }
 
