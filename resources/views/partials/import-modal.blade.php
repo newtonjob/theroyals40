@@ -10,7 +10,7 @@
 
         <p class="mt-4 text-sm text-gray-600 dark:text-gray-400">
             Import your guest list from an excel file. To download a sample excel to guide your excel headings,
-            <a href="#" class="underline font-medium text-indigo-600">click here</a>.
+            <a href="{{ asset('sample-import.xlsx') }}" class="underline font-bold text-indigo-600">click here</a>.
         </p>
 
         <div class="mt-6">
