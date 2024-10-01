@@ -20,8 +20,8 @@
     </h5>
 
     <form
+        @invite-updated.window="$success('Invite updated.')"
         wire:submit="update"
-        @invite-updated.window="ensureNotifyIsAvailable(); notify.success('Invite updated.');"
         class="my-6"
     >
         <div class="mb-6">
