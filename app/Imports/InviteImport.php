@@ -10,7 +10,7 @@ use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
 
-class InviteImport implements ToModel//, WithHeadingRow//, WithValidation
+class InviteImport implements ToModel, WithHeadingRow, WithValidation
 {
     use Importable;
 
@@ -25,9 +25,7 @@ class InviteImport implements ToModel//, WithHeadingRow//, WithValidation
 
     public function model(array $row)
     {
-        //return Invite::make(Arr::only($row, ['name', 'email', 'passes', 'category']));
-
-        return Invite::make(['name' => $row[0]. ' '.$row[1], 'passes' => 1, 'category' => 'General Guest']);
+        return Invite::make(Arr::only($row, ['name', 'email', 'passes', 'category']));
     }
 
     public function rules(): array
