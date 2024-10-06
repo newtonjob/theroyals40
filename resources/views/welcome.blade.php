@@ -5,7 +5,7 @@
     <title>Plain Invite - Smart Invite, Smooth Entry</title>
 
     <!-- SEO Meta Tags -->
-    <meta name="description" content="Smart Invite, Smooth Entry">
+    <meta name="description" content="Create personalized invites with unique QR codes for your guests. Say goodbye to long lines and confusion at the entrance.">
     <meta name="keywords" content="event, invite, entry, qr code">
     <meta name="author" content="Createx Studio">
 
@@ -24,7 +24,7 @@
     <meta name="theme-color" content="#ffffff">
 
     <meta property="og:title" content="Plain Invite - Smart Invite, Smooth Entry" />
-    <meta property="og:description" content="" />
+    <meta property="og:description" content="Create personalized invites with unique QR codes for your guests. Say goodbye to long lines and confusion at the entrance." />
     <meta property="og:image" content="{{ asset('og.png') }}" />
 
     <!-- Vendor Styles -->
@@ -538,7 +538,7 @@
                     <div class="text-primary fs-xl fw-bold pb-1 mb-2">Step 2</div>
                     <h3 class="h1 mb-lg-4">Send to Guests</h3>
                     <p class="fs-xl mb-0">
-                        Automatically send invites via email or other channels, with just a few clicks.
+                        Automatically send invites via email, WhatsApp or other channels, with just a few clicks.
                     </p>
                 </div>
             </div>
@@ -823,7 +823,9 @@
                         <h3 class="h4 fw-normal text-light opacity-75">Want to talk?</h3>
                         <a href="tel:2349068221380" class="display-6 text-light">+2349068221380</a>
                         <div class="pt-md-5 pt-4 pb-md-2">
-                            <a href="mailto:hello@plaininvite.com" class="btn btn-lg btn-light">Email: hello@plaininvite.com</a>
+                            <a href="mailto:hello@plaininvite.com" class="btn btn-lg btn-light">
+                                Or Email: hello@plaininvite.com
+                            </a>
                         </div>
                     </div>
                 </div>
