@@ -32,11 +32,16 @@ class Invite extends Model implements Attachable
         return Attribute::set(fn ($value) => ($value));
     }
 
+    public function markSent(): static
+    {
+        $this->sent_at ??= now();
+
+        return tap($this)->save();
+    }
+
     public function send(): void
     {
-        $this->update(['sent_at' => now()]);
-
-        $this->notify(new InvitePass);
+        $this->markSent()->notify(new InvitePass);
     }
 
     /**
