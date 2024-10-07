@@ -17,7 +17,7 @@
             <x-input-label for="import-file" value="{{ __('Password') }}" class="sr-only" />
 
             <x-text-input
-                class="mt-1 block w-3/4 border"
+                class="mt-1 block w-full sm:w-3/4 border"
                 accept=".xlsx,.xls,.csv"
                 id="import-file"
                 name="file"
