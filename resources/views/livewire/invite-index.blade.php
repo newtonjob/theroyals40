@@ -103,33 +103,27 @@
                             {{ $invite->sent_at ?? '-' }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="flex gap-2 justify-end">
+                            <div class="flex gap-2 justify-end divide-x dark:divide-gray-600">
                                 <a
                                     href="{{ url()->signedRoute('invites.show', $invite) }}"
-                                    class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                                    class="pl-2 font-medium text-blue-600 dark:text-blue-500 hover:underline"
                                     download
                                 >
                                     Download
                                 </a>
-
-                                @unless ($invite->sent())
-
-                                @endunless
-
-                                <span class="text-gray-200">|</span>
 
                                 @if ($invite->email)
                                     <form
                                         x-data @submit.prevent="$submit().then(() => location.reload())"
                                         action="{{ route('invites.send', $invite) }}"
                                     >
-                                        <button class="font-medium text-green-600 dark:text-green-500 hover:underline">
+                                        <button class="pl-2 font-medium text-green-600 dark:text-green-500 hover:underline">
                                             {{ $invite->sent() ? 'Resend' : 'Send' }}
                                         </button>
                                     </form>
                                 @else
                                     <a
-                                        class="font-medium text-green-600 dark:text-green-500 hover:underline"
+                                        class="pl-2 font-medium text-green-600 dark:text-green-500 hover:underline"
                                         href="{{ $invite->whatsappUrl() }}"
                                         target="_blank"
                                     >
@@ -137,13 +131,11 @@
                                     </a>
                                 @endunless
 
-                                <span class="text-gray-200">|</span>
-
                                 @can('create-invite')
                                     <a
                                         href="javascript:"
                                         wire:click="edit('{{ $invite->id }}')"
-                                        class="font-medium text-yellow-600 dark:text-yellow-500 hover:underline"
+                                        class="pl-2 font-medium text-yellow-600 dark:text-yellow-500 hover:underline"
                                         data-drawer-target="edit-invite-drawer"
                                         data-drawer-show="edit-invite-drawer"
                                         data-drawer-placement="right"
@@ -151,8 +143,6 @@
                                     >
                                         Edit
                                     </a>
-
-                                    <span class="text-gray-200">|</span>
                                 @endcan
 
                                 <form
@@ -162,7 +152,7 @@
                                     data-confirm
                                 >
                                     @method('delete')
-                                    <button class="font-medium text-red-600 dark:text-red-500 hover:underline">
+                                    <button class="pl-2 font-medium text-red-600 dark:text-red-500 hover:underline">
                                         Delete
                                     </button>
                                 </form>
