@@ -35,8 +35,7 @@ class TenancyServiceProvider extends ServiceProvider
     public function configureQueues(): void
     {
         Queue::before(function (JobProcessing $event) {
-            $id = Context::get('tenantId');
-            $id ? Tenant::findOrFail($id)->use() : Tenant::current()?->forget();
+            ($id = Context::get('tenantId')) ? Tenant::find($id)->use() : Tenant::current()?->forget();
         });
     }
 
