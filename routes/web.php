@@ -35,6 +35,10 @@ Route::middleware('tenant')->group(function () {
             return response()->json(['message' => 'Invite resent successfully.']);
         })->name('invites.send');
 
+        Route::get('/invites/{invite}/whatsapp', function (Invite $invite) {
+            return redirect()->away($invite->markSent()->whatsappUrl());
+        })->name('invites.whatsapp');
+
         Route::get('/invites/{invite}/checkin', function (Invite $invite) {
             info("Checked in Invite: {$invite->id}");
 
