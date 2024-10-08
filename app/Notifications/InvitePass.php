@@ -32,8 +32,8 @@ class InvitePass extends Notification
             ->greeting("Dear {$notifiable->name}")
 
             ->linesIf($notifiable->category !== 'After Party', [
-                'Thank you again for accepting our invitation.',
-                "Attached herein is a formal e-invite that also serves as a pass."
+                'Thank you again for accepting our wedding invitation.',
+                "Attached is your formal e-invite and pass."
             ])
             ->linesIf($notifiable->category == 'After Party', [
                 'Kasha and Jibola cordially invite you to their wedding ceremony.'
@@ -62,26 +62,27 @@ class InvitePass extends Notification
      */
     public function toWhatsapp(object $notifiable): SimpleMessage
     {
+        $party = $notifiable->category == 'After Party';
+
         return (new SimpleMessage)
             ->line("Dear {$notifiable->name}")
-            ->linesIf($notifiable->category !== 'After Party', [
-                'Thank you again for accepting our invitation.',
-                "Attached herein is a formal e-invite that also serves as a pass."
+            ->linesIf(! $party, [
+                'Thank you again for accepting our wedding invitation. Attached is your formal e-invite and pass.',
             ])
-            ->linesIf($notifiable->category == 'After Party', [
+            ->linesIf($party, [
                 'Kasha and Jibola cordially invite you to their wedding ceremony.'
             ])
-            ->line('- Venue: Monarch Event Centre, Lagos')
-            ->line('- Date: 26th October, 2024')
-            ->line('- Time: *3 PM*')
 
-            ->linesIf($notifiable->category !== 'After Party', [
-                "- Dress Code/Theme: Black tie / boldly elegant, so dress to impress in your most stylish attire.",
+            ->lineIf($party, new HtmlString("- Venue: Monarch Event Centre, Lagos\n- Date: 26th October, 2024\n- Time: *8:00 PM*"))
+            ->lineIf(! $party, new HtmlString("- Venue: Monarch Event Centre, Lagos\n- Date: 26th October, 2024\n- Time: *3:00 PM*"))
+
+            ->linesIf(! $party, [
+                "Dress Code/Theme: Black tie and boldly elegant, so dress to impress in your most stylish attire.",
                 "We look forward to celebrating with you.",
                 "_This invite admits *only {$notifiable->passes}*. QR cannot be transferred._"
             ])
 
-            ->linesIf($notifiable->category == 'After Party', [
+            ->linesIf($party, [
                 '*Card admits '.Number::spell($notifiable->passes).'*'
             ])
 
