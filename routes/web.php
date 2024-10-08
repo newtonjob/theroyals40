@@ -1,12 +1,12 @@
 <?php
 
 use App\Exports\InviteExport;
+use App\Http\Controllers\CheckedInviteController;
 use App\Http\Controllers\InviteController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SentInviteController;
+use App\Http\Controllers\VerifiedInviteController;
 use App\Imports\InviteImport;
-use App\Models\Invite;
-use App\Notifications\InviteFollowup;
-use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,30 +26,16 @@ Route::middleware('tenant')->group(function () {
     Route::middleware('auth')->group(function () {
         Route::view('/dashboard', 'dashboard')->name('dashboard');
 
-        Route::delete('/invites/{invite}', [InviteController::class, 'destroy'])->name('invites.destroy');
-        Route::post('/invites', [InviteController::class, 'store'])->name('invites.store');
+        Route::resource('invites', InviteController::class)->only('store', 'destroy');
 
-        Route::post('/invites/{invite}/send', function (Invite $invite) {
-            $invite->send();
+        Route::post('/invites/{invite}/send', [SentInviteController::class, 'store'])
+            ->name('invites.send');
 
-            return response()->json(['message' => 'Invite resent successfully.']);
-        })->name('invites.send');
+        Route::get('/invites/{invite}/whatsapp', [SentInviteController::class, 'create'])
+            ->name('invites.whatsapp');
 
-        Route::get('/invites/{invite}/whatsapp', function (Invite $invite) {
-            return redirect()->away($invite->markSent()->whatsappUrl());
-        })->name('invites.whatsapp');
-
-        Route::get('/invites/{invite}/checkin', function (Invite $invite) {
-            info("Checked in Invite: {$invite->id}");
-
-            if ($invite->remaining < 1) {
-                return to_route('invites.verify', $invite);
-            }
-
-            $invite->decrement('remaining');
-
-            return to_route('invites.verify', [$invite, 'checked' => true]);
-        })->name('invites.checkin');
+        Route::get('/invites/{invite}/checkin', [CheckedInviteController::class, 'create'])
+            ->name('invites.checkin');
 
         Route::get('/export', InviteExport::class)->name('export');
         Route::post('/import', InviteImport::class)->name('invites.import');
@@ -61,11 +47,8 @@ Route::middleware('tenant')->group(function () {
 
     Route::get('/invites/{invite}.pdf', [InviteController::class, 'show'])->name('invites.show');
 
-    Route::get('/invites/{invite}/verify', function (Invite $invite) {
-        info("Verified Invite: {$invite->id}");
-
-        return view('invites.verify', compact('invite'));
-    })->name('invites.verify');
+    Route::get('/invites/{invite}/verify', [VerifiedInviteController::class, 'create'])
+        ->name('invites.verify');
 
     Route::get('/shoot', function () {
         dd(config('app.name'), tenant());
