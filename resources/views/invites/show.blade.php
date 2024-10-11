@@ -90,4 +90,12 @@
         </div>
     </div>
 </div>
+
+<pagebreak />
+
+<div
+    class="page"
+    style="background-image: url({{ asset('palette.jpg') }});"
+></div>
+
 </body>
