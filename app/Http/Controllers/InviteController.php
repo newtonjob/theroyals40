@@ -18,7 +18,7 @@ class InviteController extends Controller
         $invite->markSent();
 
         return Pdf::margin(0)
-            ->format([215, 200])
+            ->format([200, 200])
             ->name($invite->name)
             ->render('invites.show', ['invite' => $invite]);
     }
