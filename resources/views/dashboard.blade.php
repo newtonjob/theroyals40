@@ -6,8 +6,8 @@
     </x-slot>
 
     <div class="py-6">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="text-right mb-4 mr-4 sm:mr-0">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-5">
+            <div class="text-right mr-4 sm:mr-0">
                 <a href="{{ route('export') }}"
                    class="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-purple-700 rounded-lg hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 dark:bg-purple-600 dark:hover:bg-purple-700 focus:outline-none dark:focus:ring-purple-800 mr-2"
                 >
@@ -43,6 +43,29 @@
                         New Invite
                     </button>
                 @endcan
+            </div>
+
+            <div>
+                <dl class="grid grid-cols-1 gap-5 sm:grid-cols-3">
+                    <div class="overflow-hidden rounded-lg bg-white dark:bg-gray-800 px-4 py-5 shadow sm:p-6">
+                        <dt class="truncate text-sm font-medium text-gray-500 dark:text-gray-400">Total Invites</dt>
+                        <dd class="mt-1 text-3xl font-semibold tracking-tight text-gray-900 dark:text-gray-100">
+                            {{ $count = App\Models\Invite::count() }}
+                        </dd>
+                    </div>
+                    <div class="overflow-hidden rounded-lg bg-white dark:bg-gray-800 px-4 py-5 shadow sm:p-6">
+                        <dt class="truncate text-sm font-medium text-gray-500 dark:text-gray-400">Number of Guests</dt>
+                        <dd class="mt-1 text-3xl font-semibold tracking-tight text-gray-900 dark:text-gray-100">
+                            {{ App\Models\Invite::sum('passes') }}
+                        </dd>
+                    </div>
+                    <div class="overflow-hidden rounded-lg bg-white dark:bg-gray-800 px-4 py-5 shadow sm:p-6">
+                        <dt class="truncate text-sm font-medium text-gray-500 dark:text-gray-400">Invites Sent</dt>
+                        <dd class="mt-1 text-3xl font-semibold tracking-tight text-gray-900 dark:text-gray-100">
+                            {{ $count > 0 ? round(App\Models\Invite::whereNotNull('sent_at')->count() / $count * 100) : 0 }}%
+                        </dd>
+                    </div>
+                </dl>
             </div>
 
             <livewire:invite-index />
