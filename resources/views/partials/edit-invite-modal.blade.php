@@ -16,7 +16,7 @@
 
     <h5 id="drawer-right-label"
         class="inline-flex items-center mb-4 text-base font-semibold text-gray-500 dark:text-gray-400">
-        Update Invite
+        Edit Invite
     </h5>
 
     <form
