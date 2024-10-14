@@ -44,9 +44,6 @@
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
                     <th scope="col" class="px-6 py-3">
-                        #
-                    </th>
-                    <th scope="col" class="px-6 py-3">
                         Name
                     </th>
                     <th scope="col" class="px-6 py-3">
@@ -69,17 +66,13 @@
                 <tbody>
                 @foreach($invites as $invite)
                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                        <td class="px-6 py-4">
-                            {{ $loop->iteration }}
-                        </td>
-
-                        <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
-                            <img class="w-10 h-10 rounded-full" src="https://ui-avatars.com/api?background=eef6ff&color=3e97ff&name={{ $invite->name }}&format=svg" alt="photo">
+                        <td class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
+                            <img class="w-10 h-10 rounded-full" src="{{ $invite->photo_url }}" alt="photo">
                             <div class="pl-3">
                                 <div class="text-base font-semibold">{{ $invite->name ?: '-' }}</div>
                                 <div class="font-normal text-gray-500">{{ $invite->email }}</div>
                             </div>
-                        </th>
+                        </td>
                         <td class="px-6 py-4">
                             <div class="flex items-center whitespace-nowrap">
                                 @if ($invite->category == 'Family')

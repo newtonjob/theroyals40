@@ -32,6 +32,11 @@ class Invite extends Model implements Attachable
         return Attribute::set(fn ($value) => ($value));
     }
 
+    public function photoUrl(): Attribute
+    {
+        return Attribute::get(fn () => "https://ui-avatars.com/api?background=eef6ff&color=3e97ff&name={$this->name}&format=svg");
+    }
+
     public function markSent(): static
     {
         $this->sent_at ??= now();
