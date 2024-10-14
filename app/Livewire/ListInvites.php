@@ -7,7 +7,7 @@ use App\Models\Invite;
 use Livewire\Attributes\Renderless;
 use Livewire\Component;
 
-class InviteIndex extends Component
+class ListInvites extends Component
 {
     public $search;
 
@@ -30,7 +30,7 @@ class InviteIndex extends Component
 
     public function render()
     {
-        return view('livewire.invite-index', [
+        return view('livewire.list-invites', [
             'invites' => Invite::latest()
                 ->when($this->search)->where(function ($query) {
                     $query->where('name', 'like', "%{$this->search}%")
