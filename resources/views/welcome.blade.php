@@ -16,16 +16,16 @@
     <script src="/assets/js/theme-switcher.js"></script>
 
     <!-- Favicon and Touch Icons -->
-    <link rel="apple-touch-icon" sizes="180x180" href="/favicon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon.png">
-    <link rel="shortcut icon" href="/favicon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('favicon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon.png') }}">
+    <link rel="shortcut icon" href="{{ asset('favicon.png') }}">
     <meta name="msapplication-TileColor" content="#080032">
     <meta name="theme-color" content="#ffffff">
 
     <meta property="og:title" content="Plain Invite - Smart Invite, Smooth Entry" />
     <meta property="og:description" content="Create personalized invites with unique QR codes for your guests. Say goodbye to long lines and confusion at the entrance." />
-    <meta property="og:image" content="{{ asset('og.png') }}" />
+    <meta property="og:image" content="{{ asset('og.jpg') }}" />
 
     <!-- Vendor Styles -->
     <link rel="stylesheet" media="screen" href="/assets/vendor/boxicons/css/boxicons.min.css">
