@@ -7,7 +7,15 @@
     <!-- SEO Meta Tags -->
     <meta name="description" content="Create personalized invites with unique QR codes for your guests. Say goodbye to long lines and confusion at the entrance.">
     <meta name="keywords" content="event, invite, entry, qr code">
-    <meta name="author" content="Createx Studio">
+    <meta name="author" content="Plain">
+
+    <meta property="og:title" content="Plain Invite - Smart Invite, Smooth Entry" />
+    <meta property="og:description" content="Create personalized invites with unique QR codes for your guests. Say goodbye to long lines and confusion at the entrance." />
+    <meta property="og:image" content="{{ asset('og.jpg') }}" />
+
+    <meta name="twitter:card" content="summary_large_image"/>
+    <meta name="twitter:site" content="@_newtonjob"/>
+    <meta name="twitter:creator" content="@_newtonjob"/>
 
     <!-- Viewport -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -22,14 +30,6 @@
     <link rel="shortcut icon" href="{{ asset('favicon.png') }}">
     <meta name="msapplication-TileColor" content="#080032">
     <meta name="theme-color" content="#ffffff">
-
-    <meta property="og:title" content="Plain Invite - Smart Invite, Smooth Entry" />
-    <meta property="og:description" content="Create personalized invites with unique QR codes for your guests. Say goodbye to long lines and confusion at the entrance." />
-    <meta property="og:image" content="{{ asset('og.jpg') }}" />
-
-    <meta name="twitter:card" content="summary_large_image"/>
-    <meta name="twitter:site" content="@_newtonjob"/>
-    <meta name="twitter:creator" content="@_newtonjob"/>
 
     <!-- Vendor Styles -->
     <link rel="stylesheet" media="screen" href="/assets/vendor/boxicons/css/boxicons.min.css">
