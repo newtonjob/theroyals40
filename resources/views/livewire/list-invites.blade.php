@@ -18,13 +18,13 @@
                             >Everyone</a>
                         </li>
 
-                        @foreach (['VVIP', 'General Guest', 'Family', 'After Party'] as $category)
+                        @foreach ($categories as $category)
                             <li>
                                 <a
                                     href="#"
                                     class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                                    wire:click="$set('category', '{{ $category }}')"
-                                >{{ $category }}</a>
+                                    wire:click="$set('category', '{{ $category->name }}')"
+                                >{{ $category->name }} ({{ $category->invites_count }})</a>
                             </li>
                         @endforeach
                     </ul>

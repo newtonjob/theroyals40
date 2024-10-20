@@ -39,6 +39,10 @@ class ListInvites extends Component
                 ->when($this->category)
                 ->where('category', $this->category)
                 ->get(),
+
+            'categories' => Invite::selectRaw('category as name, count(*) as invites_count')
+                ->groupBy('category')
+                ->get(),
         ]);
     }
 }
