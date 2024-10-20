@@ -27,6 +27,10 @@
     <meta property="og:description" content="Create personalized invites with unique QR codes for your guests. Say goodbye to long lines and confusion at the entrance." />
     <meta property="og:image" content="{{ asset('og.jpg') }}" />
 
+    <meta name="twitter:card" content="summary_large_image"/>
+    <meta name="twitter:site" content="@_newtonjob"/>
+    <meta name="twitter:creator" content="@_newtonjob"/>
+
     <!-- Vendor Styles -->
     <link rel="stylesheet" media="screen" href="/assets/vendor/boxicons/css/boxicons.min.css">
     <link rel="stylesheet" media="screen" href="/assets/vendor/swiper/swiper-bundle.min.css">
