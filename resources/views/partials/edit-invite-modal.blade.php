@@ -46,7 +46,7 @@
                     required aria-label="category"
                     wire:model="form.category"
             >
-                @foreach (['VVIP', 'General Guest', 'Family', 'After Party', 'Groom Friends', 'Faith Leaders'] as $category)
+                @foreach (['VVIP', 'General Guest', 'Family', 'After Party', 'Groom Friends', 'Faith Leaders', 'Dad Guest'] as $category)
                     <option value="{{ $category }}">{{ $category }}</option>
                 @endforeach
             </select>
