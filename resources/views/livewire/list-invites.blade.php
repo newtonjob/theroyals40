@@ -98,6 +98,14 @@
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="flex gap-2 justify-end divide-x dark:divide-gray-600">
                                 <a
+                                    href="{{ route('invites.verify', $invite) }}"
+                                    class="pl-2 font-medium text-purple-600 dark:text-purple-500 hover:underline"
+                                    target="_blank"
+                                >
+                                    Checkin
+                                </a>
+
+                                <a
                                     href="{{ url()->signedRoute('invites.show', $invite) }}"
                                     class="pl-2 font-medium text-blue-600 dark:text-blue-500 hover:underline"
                                     download
