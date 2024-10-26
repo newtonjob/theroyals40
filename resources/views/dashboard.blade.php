@@ -46,7 +46,7 @@
             </div>
 
             <div>
-                <dl class="grid grid-cols-1 gap-5 sm:grid-cols-3">
+                <dl class="grid grid-cols-1 gap-5 sm:grid-cols-4">
                     <div class="overflow-hidden rounded-lg bg-white dark:bg-gray-800 px-4 py-5 shadow sm:p-6">
                         <dt class="truncate text-sm font-medium text-gray-500 dark:text-gray-400">Total Invites</dt>
                         <dd class="mt-1 text-3xl font-semibold tracking-tight text-gray-900 dark:text-white">
@@ -63,6 +63,13 @@
                         <dt class="truncate text-sm font-medium text-gray-500 dark:text-gray-400">Invites Sent</dt>
                         <dd class="mt-1 text-3xl font-semibold tracking-tight text-gray-900 dark:text-white">
                             {{ $count > 0 ? round(App\Models\Invite::whereNotNull('sent_at')->count() / $count * 100) : 0 }}%
+                        </dd>
+                    </div>
+
+                    <div class="overflow-hidden rounded-lg bg-white dark:bg-gray-800 px-4 py-5 shadow sm:p-6">
+                        <dt class="truncate text-sm font-medium text-gray-500 dark:text-gray-400">Checked In Guests</dt>
+                        <dd class="mt-1 text-3xl font-semibold tracking-tight text-gray-900 dark:text-white">
+                            {{ App\Models\Invite::sum(DB::raw('passes - remaining')) }}
                         </dd>
                     </div>
                 </dl>
