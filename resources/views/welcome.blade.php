@@ -787,7 +787,7 @@
                             <div class="card-body text-light text-center">
                                 <h3 class="text-light mb-2">50 - 500 Guests</h3>
                                 <div class="fs-lg opacity-70 pb-4 mb-3">Best for medium-sized events</div>
-                                <div class="display-5 mb-1">N280,000</div>
+                                <div class="display-5 mb-1">N380,000</div>
                                 <div class="opacity-50 mb-5">per event</div>
                             </div>
                             <div class="card-footer border-0 text-center pt-0 pb-4">
@@ -802,7 +802,7 @@
                             <div class="card-body text-center">
                                 <h3 class="mb-2">500 - 1000 Guests</h3>
                                 <div class="fs-lg pb-4 mb-3">Best for large events</div>
-                                <div class="display-5 text-dark mb-1">N480,000</div>
+                                <div class="display-5 text-dark mb-1">N680,000</div>
                                 <div class="text-muted mb-5">per event</div>
                             </div>
                             <div class="card-footer border-0 text-center pt-0 pb-4">
