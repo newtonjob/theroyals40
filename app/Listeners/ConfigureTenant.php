@@ -6,7 +6,6 @@ use App\Events\ForgettingTenant;
 use App\Events\UsingTenant;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
-use Illuminate\Support\Str;
 
 class ConfigureTenant
 {
@@ -14,32 +13,30 @@ class ConfigureTenant
 
     public function __construct()
     {
-        $this->original = config()->get(['app.name', 'app.url', 'mail.from']);
+        $this->original = config()->get(['mail.from.name']);
     }
 
     public function handleUsingTenant(UsingTenant $event): void
     {
-        $tenant = $event->tenant;
+        if (app()->runningInConsole()) {
+            URL::forceRootUrl(request()->getScheme().'://'.$event->tenant->domain);
+        }
 
-        $this->configure([
-            'app.name' => $tenant->name,
-            'app.url'  => request()->getScheme() . '://' . $tenant->domain,
-
-            'mail.from.name'    => $tenant->name,
-            'mail.from.address' => Str::replaceFirst('.', '@', $tenant->domain)
+        config()->set([
+            'mail.from.name' => $event->tenant->name .' (via '.config('app.name').')',
         ]);
+
+        Mail::purge();
     }
 
     public function handleForgettingTenant(ForgettingTenant $event): void
     {
-        $this->configure($this->original);
-    }
+        if (app()->runningInConsole()) {
+            URL::forceRootUrl(config('app.url'));
+        }
 
-    public function configure(array $config)
-    {
-        config()->set($config);
+        config()->set($this->original);
 
-        URL::forceRootUrl(config('app.url'));
         Mail::purge();
     }
 }
