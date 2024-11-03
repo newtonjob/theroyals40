@@ -18,25 +18,23 @@ class ConfigureTenant
 
     public function handleUsingTenant(UsingTenant $event): void
     {
-        if (app()->runningInConsole()) {
-            URL::forceRootUrl(request()->getScheme().'://'.$event->tenant->domain);
-        }
-
         config()->set([
             'mail.from.name' => $event->tenant->name .' (via '.config('app.name').')',
         ]);
 
-        Mail::purge();
+        if (app()->runningInConsole()) {
+            URL::forceRootUrl(request()->getScheme().'://'.$event->tenant->domain);
+            Mail::purge();
+        }
     }
 
     public function handleForgettingTenant(ForgettingTenant $event): void
     {
-        if (app()->runningInConsole()) {
-            URL::forceRootUrl(config('app.url'));
-        }
-
         config()->set($this->original);
 
-        Mail::purge();
+        if (app()->runningInConsole()) {
+            URL::forceRootUrl(config('app.url'));
+            Mail::purge();
+        }
     }
 }
