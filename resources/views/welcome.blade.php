@@ -41,6 +41,14 @@
 
     <!-- Page loading styles -->
     <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
+        [id] {
+            scroll-margin-top: 80px;
+        }
+
         .page-loading {
             position: fixed;
             top: 0;
@@ -179,6 +187,18 @@
                         <li class="nav-item">
                             <a href="/" class="nav-link">Home</a>
                         </li>
+
+                        <li class="nav-item">
+                            <a href="#benefits" class="nav-link">Benefits</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="#pricing" class="nav-link">Pricing</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="#contact" class="nav-link">Contact</a>
+                        </li>
                     </ul>
                 </div>
                 {{--<div class="offcanvas-header border-top">
@@ -244,7 +264,7 @@
                     <!-- Scroll down btn -->
                     <div
                         class="d-inline-flex align-items-center justify-content-center justify-content-md-start position-relative">
-                        <a href="#benefits" data-scroll data-scroll-offset="100"
+                        <a href="#benefits"
                            class="btn btn-video btn-icon rounded-circle shadow-sm flex-shrink-0 stretched-link me-3"
                            aria-label="Scroll for more">
                             <i class="bx bx-chevron-down"></i>
@@ -750,7 +770,7 @@
 
 
     <!-- Hero -->
-    <section class="bg-dark py-4" data-bs-theme="dark">
+    <section class="bg-dark py-4" data-bs-theme="dark" id="pricing">
         <div class="container pb-2 py-lg-3">
             <h1 class="text-center mb-0">Simple, Transparent Pricing for You</h1>
         </div>
@@ -816,7 +836,7 @@
     </section>
 
     <!-- Blog + Contact cta -->
-    <div class="bg-secondary mb-5 pt-5">
+    <div class="bg-secondary mb-5 pt-5" id="contact">
         <!-- Contact CTA -->
         <section class="container pt-3 pb-4 pb-md-5"
                  style="margin-top: -156px; margin-bottom: 120px; transform: translateY(156px);">
