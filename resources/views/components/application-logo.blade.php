@@ -1,1 +1,1 @@
-<img src="{{ asset('/logo.png') }}" alt="logo" {{ $attributes->merge(['class' => 'rounded-xl']) }} width="{{ $width ?? 50 }}">
+<img src="{{ tenant()->logo }}" alt="logo" {{ $attributes->merge(['class' => 'rounded-xl']) }} width="{{ $width ?? 50 }}">

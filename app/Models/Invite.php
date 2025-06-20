@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\BelongsToTenant;
 use App\Notifications\InvitePass;
-use Facades\App\Support\Pdf;
 use Illuminate\Contracts\Mail\Attachable;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Mail\Attachment;
@@ -12,24 +13,40 @@ use Illuminate\Notifications\Notifiable;
 
 class Invite extends Model implements Attachable
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, BelongsToTenant;
 
     protected static function booted()
     {
         parent::creating(function (Invite $invite) {
+            $invite->passes ??= 1;
             $invite->remaining = $invite->passes;
         });
 
         parent::updating(function (Invite $invite) {
-            $invite->remaining += max($invite->passes - $invite->getOriginal('passes'), 0);
+            $invite->remaining += ($invite->passes - $invite->getOriginal('passes'));
         });
+    }
+
+    public function name(): Attribute
+    {
+        return Attribute::set(fn ($value) => ($value));
+    }
+
+    public function photoUrl(): Attribute
+    {
+        return Attribute::get(fn () => "https://ui-avatars.com/api?background=eef6ff&color=3e97ff&name={$this->name}&format=svg");
+    }
+
+    public function markSent(): static
+    {
+        $this->sent_at ??= now();
+
+        return tap($this)->save();
     }
 
     public function send(): void
     {
-        $this->update(['sent_at' => now()]);
-
-        $this->notify(new InvitePass);
+        $this->markSent()->notify(new InvitePass);
     }
 
     /**
@@ -45,13 +62,17 @@ class Invite extends Model implements Attachable
      */
     public function toMailAttachment(): Attachment
     {
-        return Attachment::fromData(fn () => $this->pdf()->string())
+        return Attachment::fromUrl(url()->signedRoute('invites.show', $this))
             ->as(str($this->name)->slug()->finish('.pdf'))
             ->withMime('application/pdf');
     }
 
-    public function pdf(): \App\Support\Pdf
+    public function whatsappUrl(): string
     {
-        return Pdf::margin(0)->format([200, 200])->name($this->name)->view('invites.show', ['invite' => $this]);
+        $notification = (new InvitePass)->toWhatsapp($this);
+
+        $text = collect($notification->introLines)->implode("\n\n");
+
+        return 'https://api.whatsapp.com/send?text='.urlencode($text);
     }
 }

@@ -1,7 +1,5 @@
 "use strict";
 
-let notify;
-
 (function () {
     const css = document.createElement('link');
     css.rel = 'stylesheet';
@@ -14,9 +12,7 @@ let notify;
     const swal = document.createElement('script');
     swal.src = 'https://unpkg.com/sweetalert@2.1.2/dist/sweetalert.min.js';
 
-    document.head.appendChild(css);
-    document.head.appendChild(script);
-    document.head.appendChild(swal);
+    document.head.appendChild(css).appendChild(script).appendChild(swal);
 
     document.head.insertAdjacentHTML('beforeend',
         `<style>
@@ -30,19 +26,14 @@ let notify;
     );
 })();
 
-const ensureNotifyIsAvailable = () => {
-    if (! notify) {
-        notify = new Notyf({
-            position: { x: 'right', y: 'top' },
-            duration: 8000,
-            dismissible: true,
-        });
-    }
-}
+const notify = () => window.notify ??= new Notyf({
+    position: { x: 'right', y: 'top' },
+    duration: 8000,
+    dismissible: true,
+})
 
 const submitForm = (form, controller = null) => {
-    ensureNotifyIsAvailable();
-    addSpinnerToSubmitButton(form);
+    loadSpinner(form);
 
     return axios.post(form.action, form, { signal: controller?.signal })
         .then(response => {
@@ -50,27 +41,31 @@ const submitForm = (form, controller = null) => {
                 location.href = response.headers['x-location'];
             }
 
-            const data = response.data;
-
-            if (! form.dataset.hasOwnProperty('quietly')) {
-                notify.success(data.message);
+            if (response.data.message && ! form.dataset.hasOwnProperty('quietly')) {
+                notify().success(response.data.message);
             }
 
-            closeOpenBootstrapModals();
+            closeModals();
 
-            dispatch('finish', form, data);
+            dispatch('then', form, response.data);
         }).catch(error => {
-            notify.error(error.response?.data?.message ?? error.message);
+            notify().error(error.response?.data?.message ?? error.message);
 
-            dispatch('fail', form, error);
-        }).finally(() => removeSpinnerFromSubmitButton(form));
+            dispatch('catch', form, error);
+
+            return Promise.reject(error)
+        }).finally(() => {
+            removeSpinner(form);
+
+            dispatch('finally', form);
+        });
 }
 
 const dispatch = (event, el, data) => {
     el.dispatchEvent(new CustomEvent(event, { detail: data, bubbles: true }));
 }
 
-const addSpinnerToSubmitButton = (form) => {
+const loadSpinner = (form) => {
     let spinner = `
         <svg width="18" viewBox="-2 -2 42 42" xmlns="http://www.w3.org/2000/svg" stroke="white" class="ml-2 x-spinner" style="display: inline-block">
             <g fill="none" fill-rule="evenodd">
@@ -91,7 +86,7 @@ const addSpinnerToSubmitButton = (form) => {
     }
 }
 
-const removeSpinnerFromSubmitButton = (form) => {
+const removeSpinner = (form) => {
     let button = getSubmitButtonFor(form);
 
     if (button) {
@@ -106,45 +101,52 @@ const getSubmitButtonFor = (form) => {
 }
 
 document.addEventListener('alpine:init', () => {
-    Alpine.directive('submit', el => {
-        el.addEventListener('submit', event => {
-            event.preventDefault();
-
-            const form = event.target;
-
-            if (form.dataset.hasOwnProperty('confirm')) {
-                const [text, title] = form.dataset.confirm.split('|');
-
-                return swal({
-                    title: title ?? "Sure?",
-                    text: text || "Are you sure you would like to do this?",
-                    icon: "warning",
-                    buttons: ['Nevermind', {
-                        text: form.dataset.confirmBtn ?? "Yes, proceed",
-                        closeModal: false,
-                    }],
-                    dangerMode: JSON.parse(form.dataset.danger ?? true)
-                }).then((confirm) => {
-                    if (confirm) {
-                        const controller = new AbortController();
-
-                        submitForm(form, controller).finally(() => swal.close());
-
-                        document.querySelector('.swal-button--cancel')
-                            .addEventListener('click', () => controller.abort());
-                    }
-                });
+    Alpine.magic('submit', el => {
+        return () => {
+            if (el.dataset.hasOwnProperty('confirm')) {
+                return confirmBeforeSubmit(el);
             }
 
-            submitForm(form);
+            return submitForm(el);
+        }
+    });
+
+    ["error", "success"].forEach((type) => {
+        Alpine.magic(type, () => {
+            return (subject) => notify()[type](subject);
         });
     });
 });
 
-const closeOpenBootstrapModals = () => {
+const confirmBeforeSubmit = (el) => {
+    const [text, title] = el.dataset.confirm.split('|');
+
+    return swal({
+        title: title ?? "Sure?",
+        text: text || "Are you sure you would like to do this?",
+        icon: "warning",
+        buttons: ['Nevermind', {
+            text: el.dataset.confirmBtn ?? "Yes, proceed",
+            closeModal: false,
+        }],
+        dangerMode: JSON.parse(el.dataset.danger ?? true)
+    }).then(confirm => {
+        if (confirm) {
+            const controller = new AbortController();
+
+            submitForm(el, controller).finally(() => swal.close());
+
+            document.querySelector('.swal-button--cancel').addEventListener(
+                'click', () => controller.abort()
+            );
+        }
+    });
+}
+
+const closeModals = () => {
     try {
         $('.modal').modal('hide');
-        $('.modal-backdrop').hide();
+        // $('.modal-backdrop').hide();
     } catch(e) {
         //
     }

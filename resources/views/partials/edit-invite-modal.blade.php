@@ -16,12 +16,12 @@
 
     <h5 id="drawer-right-label"
         class="inline-flex items-center mb-4 text-base font-semibold text-gray-500 dark:text-gray-400">
-        Update Invite
+        Edit Invite
     </h5>
 
     <form
+        @invite-updated.window="$success('Invite updated.')"
         wire:submit="update"
-        @invite-updated.window="ensureNotifyIsAvailable(); notify.success('Invite updated.');"
         class="my-6"
     >
         <div class="mb-6">
@@ -46,9 +46,9 @@
                     required aria-label="category"
                     wire:model="form.category"
             >
-                <option>VIP</option>
-                <option>VVIP</option>
-                <option>After Party</option>
+                @foreach (['VVIP', 'General Guest', 'Family', 'After Party', 'Groom Friends', 'Faith Leaders', 'Dad Guest'] as $category)
+                    <option value="{{ $category }}">{{ $category }}</option>
+                @endforeach
             </select>
         </div>
 

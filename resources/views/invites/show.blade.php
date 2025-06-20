@@ -75,19 +75,27 @@
 
 
 <body>
-<div class="page" style="background-image: url({{ asset($invite->category . '.jpg') }});">
-    <div style="text-align: center; padding-top: 390px">
-        <h1 style="color: {{ $invite->category === 'VVIP' ? '#b2883d' : '#777' }}; font-family: 'Times New Roman'">
+<div class="page" style="background-image: url({{ asset(tenant()->domain.'.jpg') }});">
+    <div style="text-align: center; padding-top: 400px">
+        <h1 style="color: #b79a47; font-family: 'Times New Roman'">
             {{ strtoupper($invite->name) }}
         </h1>
 
         <div style="">
             <img
-                style="margin-top: 80px; border: 1px solid #cccccc"
-                src="https://quickchart.io/qr?text={{ route('invites.verify', $invite) }}&size=170"
+                style="margin-top: 100px; border: 1px solid #cccccc"
+                src="https://quickchart.io/qr?text={{ route('invites.verify', $invite) }}&size=170&dark=625534"
                 alt="code"
             />
         </div>
     </div>
 </div>
+
+<pagebreak />
+
+<div
+    class="page"
+    style="background-image: url({{ asset('palette.jpg') }});"
+></div>
+
 </body>

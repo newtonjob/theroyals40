@@ -10,19 +10,10 @@ use Illuminate\Support\Facades\Gate;
 class AuthServiceProvider extends ServiceProvider
 {
     /**
-     * The model to policy mappings for the application.
-     *
-     * @var array<class-string, class-string>
-     */
-    protected $policies = [
-        //
-    ];
-
-    /**
      * Register any authentication / authorization services.
      */
     public function boot(): void
     {
-        Gate::define('create-invite', fn (User $user) => str($user->email)->startsWith(['tmo', 'job']));
+        Gate::define('create-invite', fn (User $user) => true);
     }
 }

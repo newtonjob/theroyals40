@@ -3,27 +3,18 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Messages\SimpleMessage;
 use Illuminate\Notifications\Notification;
-use Illuminate\Support\Facades\URL;
+use Illuminate\Support\HtmlString;
+use Illuminate\Support\Number;
 
 class InvitePass extends Notification
 {
     use Queueable;
 
     /**
-     * Create a new notification instance.
-     */
-    public function __construct()
-    {
-        //
-    }
-
-    /**
      * Get the notification's delivery channels.
-     *
-     * @return array<int, string>
      */
     public function via(object $notifiable): array
     {
@@ -36,25 +27,71 @@ class InvitePass extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject("Here's your invite to our celebration 🥂")
-            ->replyTo('pamelaogujiuba@gmail.com')
-            ->greeting(' ')
-            ->line("Hello {$notifiable->name}")
-            ->line('Thank you again for accepting our invitation.')
-            ->line('Attached herein is a formal e-invite that also serves as a pass.')
-            ->line('The theme for the evening is **boldly elegant**, so dress to impress in your most stylish attire ☺️.')
-            ->when(
-                $notifiable->category !== 'After Party',
-                fn ($message) => $message
-                    ->line('Please find details below;')
-                    ->line('- Cocktail: 5pm')
-                    ->line('- Fine Dining: 7pm')
-                    ->line('- After party: 9pm')
-                    ->line('We look forward to partying with you on the **5th of January, 2024** at the **Monarch Event Centre Lagos**.'),
-                fn ($message) => $message
-                    ->line('We look forward to partying with you on the **5th of January, 2024 - 9pm** at the **Monarch Event Center, Lagos**.'),
-            )
-            ->action('Download your invite', URL::signedRoute('invites.show', $notifiable))
-            ->line("*Important: This invite admits **{$notifiable->passes}**.*");
+            ->replyTo('themelagency@gmail.com') // TODO: should be dynamic from tenant
+            ->subject("Here's your invite to our union 🥂")
+            ->greeting("Dear {$notifiable->name}")
+
+            ->linesIf($notifiable->category !== 'After Party', [
+                'Thank you again for accepting our wedding invitation.',
+                "Attached is your formal e-invite and pass."
+            ])
+            ->linesIf($notifiable->category == 'After Party', [
+                'Kasha and Jibola cordially invite you to their wedding ceremony.'
+            ])
+
+            ->line('- Venue: Monarch Event Centre, Lagos')
+            ->line('- Date: 26th October, 2024')
+            ->line('- Time: **3 PM**')
+
+            ->linesIf($notifiable->category !== 'After Party', [
+                "- Dress Code/Theme: Black tie / boldly elegant, so dress to impress in your most stylish attire.",
+                "We look forward to celebrating with you.",
+                "*This invite admits **only {$notifiable->passes}**. QR cannot be transferred.*"
+            ])
+
+            ->linesIf($notifiable->category == 'After Party', [
+                '**Card admits '.Number::spell($notifiable->passes).'**'
+            ])
+
+            ->salutation(new HtmlString("Regards,<br>".config('app.name')))
+            ->attach($notifiable);
+    }
+
+    /**
+     * Get the whatsapp representation of the notification.
+     */
+    public function toWhatsapp(object $notifiable): SimpleMessage
+    {
+        $party = $notifiable->category == 'After Party';
+
+        return (new SimpleMessage)
+            ->line("Dear {$notifiable->name}")
+            ->linesIf(! $party, [
+                'Thank you again for accepting our wedding invitation. Attached is your formal e-invite and pass.',
+            ])
+            ->linesIf($party, [
+                'Kasha and Jibola cordially invite you to their wedding ceremony.'
+            ])
+
+            ->lineIf($party, new HtmlString("- Venue: Monarch Event Centre, Lagos\n- Date: 26th October, 2024\n- Time: *8:00 PM*"))
+            ->lineIf(! $party, new HtmlString("- Venue: Monarch Event Centre, Lagos\n- Date: 26th October, 2024\n- Time: *3:00 PM*"))
+
+            ->linesIf(! $party, [
+                "Dress Code/Theme: Black tie and boldly elegant, so dress to impress in your most stylish attire.",
+                "We look forward to celebrating with you.",
+                "_This invite admits *only {$notifiable->passes}*. QR cannot be transferred._"
+            ])
+
+            ->linesIf($party, [
+                '*Card admits '.Number::spell($notifiable->passes).'*'
+            ])
+
+            ->line(new HtmlString("Regards,\n".config('app.name')))
+            ->line(url()->signedRoute('invites.show', $notifiable));
+    }
+
+    public function shouldSend(): bool
+    {
+        return tenant()->domain === 'therawaunion.plaininvite.com';
     }
 }

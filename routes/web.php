@@ -1,11 +1,12 @@
 <?php
 
 use App\Exports\InviteExport;
+use App\Http\Controllers\CheckedInviteController;
+use App\Http\Controllers\InviteController;
 use App\Http\Controllers\ProfileController;
-use App\Models\Invite;
-use App\Notifications\InviteFollowup;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Notification;
+use App\Http\Controllers\SentInviteController;
+use App\Http\Controllers\VerifiedInviteController;
+use App\Imports\InviteImport;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,65 +20,41 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::redirect('/', '/dashboard');
+Route::view('/', 'welcome')->middleware('central');
 
-Route::middleware('auth')->group(function () {
-    Route::view('/dashboard', 'dashboard')->name('dashboard');
+Route::middleware('tenant')->group(function () {
+    Route::middleware('auth')->group(function () {
+        Route::view('/dashboard', 'dashboard')->name('dashboard');
 
-    Route::post('/invites', function (Request $request) {
-        $invite = Invite::create($request->validate([
-            'name'      => 'required',
-            'passes'    => 'required',
-            'email'     => 'nullable|email',
-            'category'  => 'required'
-        ]));
+        Route::resource('invites', InviteController::class)->only('store', 'destroy');
 
-        if ($request->email && $request->send) {
-            $invite->send();
-        }
+        Route::post('/invites/{invite}/send', [SentInviteController::class, 'store'])
+            ->name('invites.send');
 
-        return response()->json(['message' => 'Invite created.']);
-    })->name('invites.store');
+        Route::get('/invites/{invite}/whatsapp', [SentInviteController::class, 'create'])
+            ->name('invites.whatsapp');
 
-    Route::delete('/invites/{invite}', function (Invite $invite) {
-        $invite->delete();
+        Route::get('/invites/{invite}/checkin', [CheckedInviteController::class, 'create'])
+            ->name('invites.checkin');
 
-        return response()->json(['message' => 'Invite deleted.']);
-    })->name('invites.destroy');
+        Route::get('/export', InviteExport::class)->name('export');
+        Route::post('/import', InviteImport::class)->name('invites.import');
 
-    Route::post('/invites/{invite}/send', function (Invite $invite) {
-        $invite->send();
+        Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+        Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+        Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    });
 
-        return response()->json(['message' => 'Invite resent successfully.']);
-    })->name('invites.send');
+    Route::get('/invites/{invite}.pdf', [InviteController::class, 'show'])->name('invites.show');
 
-    Route::get('/invites/{invite}/checkin', function (Invite $invite) {
-        if ($invite->remaining < 1) {
-            return to_route('invites.verify', $invite);
-        }
+    Route::get('/invites/{invite}/verify', [VerifiedInviteController::class, 'create'])
+        ->name('invites.verify');
 
-        $invite->decrement('remaining');
+    Route::get('/shoot', function () {
+        dd(config('app.name'), tenant());
+        //Notification::route('mail', 'adesolaadebisi@gmail.com')->notify(new InviteFollowup);
+        //Notification::send(Invite::whereNotNull('email')->latest()->take(50)->get(), new InviteFollowup);
+    });
 
-        return to_route('invites.verify', [$invite, 'checked' => true]);
-    })->name('invites.checkin');
-
-    Route::get('/export', fn () => new InviteExport)->name('export');
-
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    require __DIR__ . '/auth.php';
 });
-
-Route::get('/invites/{invite}', function (Invite $invite) {
-    return $invite->pdf()->stream();
-})->middleware('signed')->name('invites.show');
-
-Route::get('/invites/{invite}/verify', function (Invite $invite) {
-    return view('invites.verify', compact('invite'));
-})->name('invites.verify');
-
-Route::get('/shoot', function () {
-    Notification::send(Invite::all(), new InviteFollowup);
-});
-
-require __DIR__ . '/auth.php';
